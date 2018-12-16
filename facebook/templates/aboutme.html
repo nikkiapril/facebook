@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>프로필</title>
+
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+$('[data-toggle="tooltip"]').tooltip();
+
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+
+//여기까지
+$(".btn-pref .btn").click(function () {
+    $(".btn-pref .btn").removeClass("btn-primary").addClass("btn-default");
+    // $(".tab").addClass("active"); // instead of this do the below
+    $(this).removeClass("btn-default").addClass("btn-primary");
+});
+});
+
+</script>
+
+<style>
+
+
+body {
+      font: 400 15px/1.8 Lato, sans-serif;
+      color: #777;
+  }
+  h3, h4 {
+      margin: 10px 0 30px 0;
+      letter-spacing: 10px;
+      font-size: 20px;
+      color: #111;
+  }
+  .container {
+      padding: 80px 120px;
+  }
+  .person {
+      border: 10px solid transparent;
+      margin-bottom: 25px;
+      width: 80%;
+      height: 80%;
+      opacity: 0.7;
+  }
+  .person:hover {
+      border-color: #f1f1f1;
+  }
+  .carousel-inner img {
+      -webkit-filter: grayscale(90%);
+      filter: grayscale(90%); /* make all photos black and white */
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+  }
+  .carousel-caption h3 {
+      color: #fff !important;
+  }
+  @media (max-width: 600px) {
+    .carousel-caption {
+      display: none; /* Hide the carousel text when the screen is less than 600 pixels wide */
+    }
+  }
+  .bg-1 {
+      background: #2d2d30;
+      color: #bdbdbd;
+  }
+  .bg-1 h3 {color: #fff;}
+  .bg-1 p {font-style: italic;}
+  .list-group-item:first-child {
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+  }
+  .list-group-item:last-child {
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+  }
+  .thumbnail {
+      padding: 0 0 15px 0;
+      border: none;
+      border-radius: 0;
+  }
+  .thumbnail p {
+      margin-top: 15px;
+      color: #555;
+  }
+  .btn {
+      padding: 10px 20px;
+      background-color: #333;
+      color: #f1f1f1;
+      border-radius: 0;
+      transition: .2s;
+  }
+  .btn:hover, .btn:focus {
+      border: 1px solid #333;
+      background-color: #fff;
+      color: #000;
+  }
+  .modal-header, h4, .close {
+      background-color: #333;
+      color: #fff !important;
+      text-align: center;
+      font-size: 30px;
+  }
+  .modal-header, .modal-body {
+      padding: 40px 50px;
+  }
+  .nav-tabs li a {
+      color: #777;
+  }
+  #googleMap {
+      width: 100%;
+      height: 400px;
+      -webkit-filter: grayscale(100%);
+      filter: grayscale(100%);
+  }
+  .navbar {
+      font-family: Montserrat, sans-serif;
+      margin-bottom: 0;
+      background-color: #2d2d30;
+      border: 0;
+      font-size: 11px !important;
+      letter-spacing: 4px;
+      opacity: 0.9;
+  }
+  .navbar li a, .navbar .navbar-brand {
+      color: #d5d5d5 !important;
+  }
+  .navbar-nav li a:hover {
+      color: #fff !important;
+  }
+  .navbar-nav li.active a {
+      color: #fff !important;
+      background-color: #29292c !important;
+  }
+  .navbar-default .navbar-toggle {
+      border-color: transparent;
+  }
+  .open .dropdown-toggle {
+      color: #fff;
+      background-color: #555 !important;
+  }
+  .dropdown-menu li a {
+      color: #000 !important;
+  }
+  .dropdown-menu li a:hover {
+      background-color: red !important;
+  }
+  footer {
+      background-color: #2d2d30;
+      color: #f5f5f5;
+      padding: 32px;
+  }
+  footer a {
+      color: #f5f5f5;
+  }
+  footer a:hover {
+      color: #777;
+      text-decoration: none;
+  }
+  .form-control {
+      border-radius: 0;
+  }
+  textarea {
+      resize: none;
+  }
+
+
+/* USER PROFILE PAGE */
+ .card {
+    margin-top: 20px;
+    padding: 30px;
+    background-color: rgba(214, 224, 226, 0.2);
+    -webkit-border-top-left-radius:5px;
+    -moz-border-top-left-radius:5px;
+    border-top-left-radius:5px;
+    -webkit-border-top-right-radius:5px;
+    -moz-border-top-right-radius:5px;
+    border-top-right-radius:5px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.card.hovercard {
+    position: relative;
+    padding-top: 0;
+    overflow: hidden;
+    text-align: center;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 1);
+}
+.card.hovercard .card-background {
+    height: 130px;
+}
+.card-background img {
+    -webkit-filter: blur(25px);
+    -moz-filter: blur(25px);
+    -o-filter: blur(25px);
+    -ms-filter: blur(25px);
+    filter: blur(25px);
+    margin-left: -100px;
+    margin-top: -200px;
+    min-width: 130%;
+}
+.card.hovercard .useravatar {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+}
+.card.hovercard .useravatar img {
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 5px solid rgba(255, 255, 255, 0.5);
+}
+.card.hovercard .card-info {
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+}
+.card.hovercard .card-info .card-title {
+    padding:0 5px;
+    font-size: 20px;
+    line-height: 1;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.card.hovercard .card-info {
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 20px;
+    color: gray;
+    text-overflow: ellipsis;
+}
+.card.hovercard .bottom {
+    padding: 0 20px;
+    margin-bottom: 17px;
+}
+.btn-pref .btn {
+    -webkit-border-radius:0 !important;
+}
+
+</style>
+
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<div class="col-lg-6 col-sm-6" style="width:100%;">
+    <div class="card hovercard">
+        <div class="card-background">
+            <img src="/static/bgc.gif">
+            <!-- http://lorempixel.com/850/280/people/9/ -->
+        </div>
+        <div class="useravatar">
+            <!--<img alt="" src="http://lorempixel.com/100/100/people/9/">-->
+            <img src="/static/Bora_yum.png">
+        </div>
+        <div class="card-info"> <span class="card-title">Bora Lee</span>
+
+        </div>
+    </div>
+    <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <div class="hidden-xs">JAVA</div>
+            </button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                <div class="hidden-xs">Arduino</div>
+            </button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <div class="hidden-xs">Links</div>
+            </button>
+        </div>
+    </div>
+
+    <div class="well">
+        <div class="tab-content">
+            <!--JAVA-->
+            <!--modal-->
+
+            <!--여기까지-->
+            <div class="tab-pane fade in active" id="tab1"  style="margin-bottom:-5.7%;">
+
+
+
+
+                <div id="tour" class="bg-1">
+                    <div class="container">
+                        <h3 class="text-center">TOUR DATES</h3>
+                        <p class="text-center">Lorem ipsum we'll play you some music.<br> Remember to book your tickets!</p>
+
+
+                        <div class="row text-center">
+                            <div class="col-sm-4">
+                                <div class="thumbnail">
+                                    <img src="paris.jpg" alt="Paris" width="400" height="300">
+                                    <p><strong>Paris</strong></p>
+                                    <p>Friday 27 November 2015</p>
+                                    <button class="btn" data-toggle="modal" data-target="#myModal">Buy Tickets</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="thumbnail">
+                                    <img src="newyork.jpg" alt="New York" width="400" height="300">
+                                    <p><strong>New York</strong></p>
+                                    <p>Saturday 28 November 2015</p>
+                                    <button class="btn" data-toggle="modal" data-target="#myModal">Buy Tickets</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="thumbnail">
+                                    <img src="sanfran.jpg" alt="San Francisco" width="400" height="300">
+                                    <p><strong>San Francisco</strong></p>
+                                    <p>Sunday 29 November 2015</p>
+                                    <button class="btn" data-toggle="modal" data-target="#myModal">Buy Tickets</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h4><span class="glyphicon glyphicon-lock"></span> Tickets</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form">
+                                        <div class="form-group">
+                                            <label for="psw"><span class="glyphicon glyphicon-shopping-cart"></span> Tickets, $23 per person</label>
+                                            <input type="number" class="form-control" id="psw" placeholder="How many?">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="usrname"><span class="glyphicon glyphicon-user"></span> Send To</label>
+                                            <input type="text" class="form-control" id="usrname" placeholder="Enter email">
+                                        </div>
+                                        <button type="submit" class="btn btn-block">Pay
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+                                        <span class="glyphicon glyphicon-remove"></span> Cancel
+                                    </button>
+                                    <p>Need <a href="#">help?</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+            <!--여기부터-->
+
+            <!--<h3>Project based on JAVA/SPRING</h3>-->
+            <!--<h6><a href="/">Click here to back to the Main Page</a></h6>-->
+
+            <!--&lt;!&ndash;1학사관리&ndash;&gt;-->
+            <!--<div style="margin-top:5%; margin-bottom:2%; width:30%; float:left; margin-right:0.9%;">-->
+            <!--<img src="/static/concept_1.JPG" style="width:100%;border-radius:10%;">-->
+            <!--</div>-->
+
+            <!--<div style="margin-top:5%; margin-bottom:2%; width:33%; float:left; margin-right:0.6%;">-->
+            <!--<img src="/static/ams.jpg" style="width:100%; border-radius:10%;">-->
+            <!--</div>-->
+
+            <!--<div style="margin-top:5%; margin-bottom:2%; width:34%; float:left;">-->
+
+            <!--<img src="/static/tool_1.JPG" style="width:100%;  margin-left:0.5%; border-radius:10%;">-->
+            <!--</div>-->
+
+
+
+            <!--&lt;!&ndash;2학사관리&ndash;&gt;-->
+            <!--<div style="margin-top:2%; margin-bottom:2%; width:30%; float:left; margin-right:0.9%;">-->
+            <!--<img src="/static/concept_2.JPG" style="width:100%;border-radius:10%; margin-right:1.5%;">-->
+            <!--</div>-->
+            <!--<div style="margin-top:2%; margin-bottom:2%; width:33%; float:left;">-->
+            <!--<img src="/static/eurecar.jpg" style="width:100%; border-radius:10%; margin-right:1.7%;">-->
+            <!--</div>-->
+            <!--<div style="margin-top:2%; margin-bottom:2%; width:34%; float:left; margin-left:0.6%;">-->
+            <!--<img src="/static/tool_2.jpg" style="width:100%; margin-left:0.5%; border-radius:10%;">-->
+            <!--</div>-->
+
+            <!--&lt;!&ndash;3학사관리&ndash;&gt;-->
+            <!--<div style="margin-top:2%; margin-bottom:2%; width:30%; float:left; margin-right:0.2%;">-->
+            <!--<img src="/static/concept_3.JPG" style="width:100%;border-radius:10%;">-->
+            <!--</div>-->
+            <!--<div style="margin-top:2%; margin-bottom:2%; width:33%; float:left; margin-left:0.4%; margin-right:0.6%;">-->
+            <!--<img src="/static/wine.jpg" style="width:100%; border-radius:10%;">-->
+            <!--</div>-->
+            <!--<div style="margin-top:2%; margin-bottom:2%; width:34%; float:left;">-->
+            <!--<img src="/static/tool_3.JPG" style="width:100%; margin-left:0.5%; border-radius:10%;">-->
+            <!--</div>-->
+            <!--</div>-->
+
+
+
+            <!--Ardunio-->
+            <div class="tab-pane fade in" id="tab2" style="margin-bottom:-5.7%;">
+                <h3>Project based on C/ Arduino</h3>
+                <h6><a href="/">Click here to back to the Main Page</a></h6>
+
+                <!--1학사관리-->
+                <div style="margin-top:5%; margin-bottom:2%; width:30%; float:left; margin-right:0.7%;">
+                    <img src="/static/concept_4.JPG" style="width:100%;border-radius:10%;">
+                </div>
+                <div style="margin-top:5%; margin-bottom:2%; width:33%; float:left; margin-right:0.6%;">
+                    <img src="/static/smart trashbin1.gif" style="width:100%; border-radius:10%;">
+                </div>
+                <div style="margin-top:5%; margin-bottom:2%; width:34%; float:left;">
+                    <img src="/static/tool_4.JPG" style="width:100%;  margin-left:0.5%; border-radius:10%;">
+                </div>
+
+
+
+                <!--2학사관리-->
+                <div style="margin-top:2%; margin-bottom:2%; width:30%; float:left; margin-right:0.2%; margin-right:0.7%;">
+                    <img src="/static/concept_5.JPG" style="width:100%;border-radius:10%;">
+                </div>
+                <div style="margin-top:2%; margin-bottom:2%; width:33%; float:left; margin-right:0.6%;">
+                    <img src="/static/bluetooth.gif" style="width:100%; border-radius:10%;">
+                </div>
+                <div style="margin-top:2%; margin-bottom:2%; width:34%; float:left;">
+                    <img src="/static/tool_06.JPG" style="width:100%; margin-left:0.5%; border-radius:10%;">
+                </div>
+
+
+
+
+
+
+
+            </div>
+            <!--Link-->
+            <div class="tab-pane fade in" id="tab3" style="margin-bottom:-2%;">
+                <!--<h3>This is tab 3</h3>-->
+
+                <div class="info" style=" color:gray;text-align:center; margin-bottom:2%; margin-top:0.1%;  font-size:200%;  ">
+
+
+                    <!--<div style="margin-top:-3%; padding-top:5%; color:black; color:white;"></div>-->
+                    <!--<b>BORA LEE</b><br/>-->
+                    <!--<b>31 YEARS OLD</b><br/>-->
+                    <!--<b>LIVING IN SEOUL, S.KOREA</b><br/>-->
+                    <!--<b style="font-size:90%;">nikkiapril@hanmail.net</b><br/>-->
+                    <!--<b style="font-size:90%;">+82-5031-7101</b></br>-->
+
+                    <div style="margin-top:-3%; padding-top:5%; color:black; color:white;"></div>
+                    <!--<div style="margin-top:-5%; padding-top:8%; color:white; color:white;"></div>-->
+                    <div style="color:black;"><strong>- LINK -</strong></div>
+                    <b><a href="https://github.com/nikkiapril/portfolio">PORTFOLIO</a></b><br/>
+                    <b><a href="https://nikkiapril.wixsite.com/-nikkiapril">WIX</a></b><br/>
+
+                    <b><a href="https://github.com/nikkiapril">GitHurb</a></b><br/>
+
+                    <b><a href="https://blog.naver.com/boraissocool">BLOG</a></b><br/>
+                    <b><a href="https://facebook.com/CHCOMA">FACEBOOK</a></b><br/>
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+</div>
+
+</div>
+</body>
+

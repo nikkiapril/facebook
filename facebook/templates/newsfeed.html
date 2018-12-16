@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>MESSAGE</title>
+
+</head>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+            $('.like_btn').click( function() {
+                var pk = $(this).attr('data-article');
+                var click = $(this);
+                $.ajax({
+                    url:'/like',
+                    dataType:'json',
+                    type:'POST',
+                    data:{
+                        'pk':pk
+                        ,'status':click.attr('data-status')
+                        , 'csrfmiddlewaretoken': '{{csrf_token}}'
+                        },
+                    success:function(result){
+                        //alert("success"+result.article_like);
+                        //alert($('#img'+pk).parent().text());
+                        $('#img'+pk).next().text(result.article_like);
+
+                        // 처음 좋아요 눌렀을때, 하트 빨갛게
+                        if(result.article_like=='1'){
+                            $('#img'+pk).attr('src', '/static/redHeart.png');
+                        }else if(result.article_like=='0'){
+                            $('#img'+pk).attr('src', '/static/justHeart.gif');
+                        }
+
+                        // 좋아요 아이콘 파랗게
+                        console.log(result.status);
+                        if(result.status==0){
+                            click.find('img').attr('src', '/static/thankyou.gif');
+                            click.css('color', '#FE642E');
+                            click.attr('data-status', '1');
+                        }else{
+                            click.find('img').attr('src', '/static/like_icon.gif');
+                            click.css('color', '#F5DA81');
+                            click.attr('data-status', '0');
+                        }
+                    }
+                    ,error:function(xhr, ajaxOptions, thrownError){
+                        alert("error"+xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
+
+            <!-- 코멘트 ajax -->
+            $('.comment_submit').click( function() {
+                // 코멘트작성시 이름,비밀번호,내용,게시글번호 전송
+                var send_data = {
+                    "name" : $(this).prevAll(".comment_name").val()
+                    ,"password" : $(this).prevAll(".comment_password").val()
+                    ,"content" : $(this).prevAll(".comment_content").val()
+                    ,"article" : $(this).attr('data-article')
+                };
+                // 작성된글을 기존 코멘트리스트 맨뒤에 붙이기위한 선택자
+                // $(this): 버튼클릭, parent():form-wrapper, prev:comment_list
+                var comment_list = $(this).parent().prev();
+            //console.log(send_data);
+
+                $.ajax({
+                    url:'/comment_write',
+                    dataType:'json',
+                    type:'POST',
+                    data:{
+                    "name" : $(this).prevAll(".comment_name").val()
+                    ,"password" : $(this).prevAll(".comment_password").val()
+                    ,"content" : $(this).prevAll(".comment_content").val()
+                    ,"article" : $(this).attr('data-article')
+                    , 'csrfmiddlewaretoken': '{{csrf_token}}'
+                    },
+                    success:function(result){
+                        //console.log(result);
+                        // 저장된 날짜 받아옴(ex. 2018-12-05 11:46 PM)
+                        var add_date = result.created_at;
+                        // 위의날짜를 " "단위로 짜르기(ex. [0]:2018-12-05, [1]:11:46, [2]:PM)
+                        var split_add_date = add_date.split(" ");
+                        // 연월일을 "-"단위로 짜르기(ex. [0]:2018, [1]:12, [2]:05)
+                        var split_date = split_add_date[0].split("-");
+
+                        // 연도(ex.2018)
+                        var year = split_date[0];
+                        // 월(ex. 12)
+                        var month = split_date[1];
+                        // 일(ex. 05)
+                        var date = split_date[2];
+
+                        // 시간을 ":"단위로 짜르기(ex. [0]:11, [1]:46)
+                        var split_time = split_add_date[1].split(":");
+                        var hour = Number(split_time[0]);
+                        var minute = split_time[1];
+
+                        // AM, PM으로 나오는것 한글로 치환
+                        var ap = '';
+                        if(split_add_date[2]=='AM'){
+                            ap = '오전';
+                        }else{
+                            ap = '오후';
+                        }
+
+                        // 월,일을 출력할때 1자리수에서 0 제거(ex. 01 -> 1)
+                        if(month.length==2 && month<10){
+                            month = month.replace(0,'');
+                        }
+                        if(date.length==2 && date<10){
+                            date = date.replace(0,'');
+                        }
+
+                        // 완성된 날짜
+                        var check = year+'년 '+month+'월 '+date+'일 '+hour+':'+minute+' '+ap;
+
+                        // 작성한 코멘트를 붙여주기
+                        var new_comment = "<div class='comment'><span class='name'>"+result.name+"</span> "+result.content
+                        +"</div>"
+                        + "<div class='comment__date' style='color:#F5DA81; margin-left:4.8%; margin-top:0.2%;'>"+check
+                        +" <a href='/feed/"+result.article+"/edit_comment'><img src='/static/ic_edit.png' height='16px'></a>"
+                        +" <a href='/feed/"+result.article+"/remove_comment'><img src='/static/ic_delete.png' height='16px' style='margin-top:-0.2%; margin-left:-0.3%;'></a>"
+                        +"</div>";
+
+                        comment_list.append(new_comment);
+
+                        // 작성하고 저장하면 작성내용 지우기
+                        // next():form-wrapper, find(클래스명): 해당 클래스로 선택, val(''): ''으로 내용채우기
+                        comment_list.next().find('.comment_name').val('');
+                        comment_list.next().find('.comment_password').val('');
+                        comment_list.next().find('.comment_content').val('');
+                        //alert("success");
+                    }
+                    ,error:function(xhr, ajaxOptions, thrownError){
+                        alert("error"+xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
+
+            $('.cmt').click( function() {
+                var show = $(this).attr('data-show');
+
+                if(show==1){
+                $(this).parent().parent().next('.comment_box').hide();
+                 $(this).attr('data-show', '0');
+                }else{
+                $(this).parent().parent().next('.comment_box').show();
+                    $(this).attr('data-show', '1');
+                }
+            });
+
+            $('.search1').click(function() {
+                var k = $('.searchbar').val().trim();
+                    if(k == undefined || k == null || k == ""){
+                        alert("검색내용을 쓰세요!");
+
+                       return false;
+                       }
+                       location.href = '/search/'+k;
+
+
+            });
+
+            $('.like_gray').click( function(){
+                var src = ($(this).attr('src') === '/static/like_icon.gif')
+                    ? '/static/thankyou.gif.png'
+                    : '/static/like_icon.gif';
+                $(this).attr('src', src);
+            });
+
+            // delete_feed
+            $('.delete_feed').click( function(){
+                var feed_pk = $(this).parent().attr('data-pk');
+                $('#modal_delete').find('form').attr('action', '/feed/'+feed_pk+'/remove');
+
+                $('#modal_delete').show();
+                $('#modal_delete').find('input').focus();
+            });
+
+            var submitAction = function(e) {
+                if($(this).attr('action')==''){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    alert('에러가 발생해서 페이지 새로고침 후 시도해주세요.');
+                }
+
+                if($(this).find('.input_field').val().trim()==''){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    alert('비밀번호를 입력하세요');
+                }
+            };
+            $('#form_delete_feed').bind('submit', submitAction);
+
+            $('.modal_cancel').click(function(){
+                $(this).parent().find('input').val('');
+                $('#modal_delete').hide();
+                $('body').css('opacity', 'initial');
+            });
+
+});
+
+window.onclick = function(event) {
+    var modal = document.getElementsByClassName('modal');
+
+    for(var i=0; i<modal.length; i++){
+        var modal_target = modal[i];
+
+        if (event.target == modal_target) {
+            $('.modal').hide();
+        }
+    }
+}
+
+$(document).ready(function() {
+            $("#keyword").keydown(function(n) {
+                if(n.keyCode==13){
+
+                    var k = $(this).val().trim();
+                    if(k == undefined || k == null || k == ""){
+                        alert("검색내용을 쓰세요!")
+
+                       return false;
+                    }
+                    location.href = '/search/'+k;
+
+
+                }
+            })
+        })
+
+
+
+</script>
+
+<style>
+        * { box-sizing: border-box; margin: 0; padding: 0; position: relative;}
+        body {background-image: url('/static/bgc.gif');
+
+         -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+         }
+        .header {
+            background-color: transparent;
+            <!--background-image: url('/static/1yip.gif');-->
+            color: #F79F81;
+
+            height: 42px;
+            <!--border:1px solid white;-->
+        }
+        .btn1 {
+            position: absolute;
+            z-index:10;
+            width:48.4px;
+        }
+        .search {
+            padding-left:50px;
+            margin-top:10px;
+            width:-webkit-fill-available;
+            <!--position:absolute;-->
+            <!--left: 50px;-->
+            <!--right: 50px;-->
+            <!--width:1800px;-->
+            <!--width:100%;-->
+        }
+        .searchbar {
+            background-color: transparent;
+            color:#F5DA81;
+            border-radius: 4px;
+            border: 1px solid #F5DA81;
+            padding: 10px;
+        }
+        .btn2 {
+            position: absolute;
+            right: 35px;
+        }
+        .container {
+            background-color: transparent;
+            <!--background-color: #d7d8dc;-->
+        }
+        .footer {
+            border-top: 1px solid #F5DA81;
+            background-color: #fafafa;
+            height: 5px;
+            text-align: center;
+            position:relative; bottom: 0; left: 0; right: 0;
+        }
+        . tree_img{
+           position:fixed;
+        }
+        .tab1 {
+            float: left;
+            width: 50%;
+        }
+        .tab2 {
+            float: left;
+            width: 50%;
+        }
+        .tab3 {
+            float: left;
+            width: 25%;
+        }
+        .tab4 {
+            float: left;
+            width: 25%;
+        }
+        .feed {
+            background-color: transparent;
+            <!--background-color: #ffffff;-->
+            <!--background-image: url('/static/1yip.gif');-->
+
+            border-top: -5px solid #F5DA81;
+            border-bottom: 1px solid transparent;
+            margin: 7px 0;
+            padding: 12px;
+            margin-bottom:-1%;
+        }
+        .date {
+            color: #F5DA81;
+            margin-bottom: 10px;
+        }
+        .title {
+            color: #F79F81;
+            font-weight: 600;
+        }
+        .content {
+            margin-top: 5px;
+            color:#F79F81;
+        }
+        .accessory {
+            border-top: 1px solid #F5DA81;
+            padding-top:10px;
+            margin-top:10px;
+            color: #F5DA81;
+            font-size: 14px;
+        }
+        <!--코멘트-!>
+         .comment_list {
+        background-color: transparent;
+        border-bottom: 1px solid #F5DA81;
+        padding-top: 0.1px;
+    }
+​    #author_name{
+        <!--color:red;-->
+        color:#F7BE81;
+        font-weight:bold;
+      }
+    .comment {
+        background-color: #fff;
+        color:#F79F81;
+        border-radius: 30px;
+        margin: 15px;
+        padding: 15px;
+        margin-bottom: 0;
+        padding-top:-0.3%;
+        margin-bottom:-2%;
+        margin-left:3.5%;
+        background-color:transparent;
+        margin-top:-0.3%;
+
+    }
+​
+    .comment__date {
+        color:#F5DA81;
+        margin: 0 15px;
+        padding: 8px 15px;
+        padding-bottom: 0px;
+        font-size: 13px;
+    }
+​
+​
+    .form-wrapper {
+        margin-left:30%;
+        padding: 15px;
+        border-bottom: 1px #F5DA81;
+    }
+​
+
+​
+    #c_button {
+        border: 1px solid #F5DA81;
+        <!--background-color: transparent;-->
+        color: #F5DA81;
+        font-weight: 500;
+        font-size: 15px;
+        padding: 3px 16px;
+        border-radius: 7px;
+        background-color:transparent;
+        width:10%;
+    }
+    .form_box {
+    background-color: transparent;
+    margin: 10px;
+    border-radius: 4px;
+    border: 1px solid #F5DA81;
+    padding: 10px;
+}
+.input_field {
+    border: 1px solid #F5DA81;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 3px 0;
+    font-size: 14px;
+    width: 100%;
+    color:#FE9A2E;
+}
+.textarea_field {
+    border: 1px dotted #F5DA81;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 3px 0;
+    font-size: 14px;
+    width: 100%;
+    height: 160px;
+    color: #F5DA81;
+}
+.write_button {
+    background-color: transparent;
+    border: 1px solid #F5DA81;
+    color: #F5DA81;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 15px;
+}
+
+.form-wrapper input,
+.form-wrapper textarea {
+    border: 1px dotted #F5DA81;
+    width: 60%;
+    padding: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin-top: 2px;
+    margin-left:10px;
+    margin-bottom: 5px;
+}
+​
+.comment_submit {
+   background-color: transparent;
+    border: 1px solid #F5DA81;
+    color: #F5DA81;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 15px;
+}
+
+    </style>
+<!---동영상플레이-->
+<body>
+<div class="container">
+    <!--여그까지-->
+    <div style="text-align: center; "><a href="/main/"><img src="/static/message_board.gif" style="width:100%;margin-left:10px;" ></a></div>
+    <!--<div class="header" style="height:65px;margin-bottom:15px;">-->
+</div>
+<div class="container" style="padding-left:25px;padding-right:25px;margin-top:20px;">
+    <div class="btn1" style="display:inline-block;">
+
+
+        <a href="/">
+            <img src="/static/6.gif" width="48.4px" >
+        </a>
+    </div>
+    <!--서치!!-->
+
+    <div class="search">
+
+        <input type="text" style="width:100%;border-radius:4px; color:#F5DA81;" class="searchbar"  placeholder="Search by name :)" id="keyword" onkeyup="">
+
+    </div>
+
+
+</div>
+<div class="container" style="margin-top:10px;">
+    <div class="form_box">
+        <form method="POST">
+            {% csrf_token %}
+
+            <!--<img src="/static/message1.gif" style="width:20%; margin-top:-10px;">-->
+            <input class="input_field" type="text" placeholder="What's your name" name="author" ><br>
+            <input class="input_field" type="password" placeholder="Temporary password" name="password"><br>
+            <input class="input_field" type="text" placeholder="Title" name="title"><br>
+            <textarea class="input_field" placeholder="Text.." name="content"></textarea><br>
+
+            <button class="write_button"><em>Submit</em></button>
+
+        </form>
+    </div>
+</div>
+<div class="container">
+    {% if  articles %}
+    {% for feed in articles %}
+    <div class="feed">
+        <h3 class="name" style="color:#F7BE81;">{{ feed.author }}</h3>
+        <div class="date">
+            <h4 data-pk="{{feed.pk}}">{{ feed.created_at }}
+                <a href="/feed/{{ feed.pk }}/edit" style="margin-left: 6px;"><img src="/static/ic_edit.png" height="16px"></a>
+                <!--<a href="/feed/{{ feed.pk }}/remove"  style="margin-left:-2px;"><img src="/static/ic_delete.png" height="16px"></a></h4>-->
+                <img src="/static/ic_delete.png" class="delete_feed" height="16px" style="margin-top:-0.2%; margin-left:-0.3%"></h4>
+        </div>
+
+
+        <a class="title">{{ feed.title }}</a>
+        <p class="content" style="color:#F79F81;">{{ feed.text }}</p>
+        <!--<a class="more" href="/feed/{{feed.pk}}/">더보기</a>-->
+        <div style="height:15px;"></div>
+        <div>
+            {% if feed.total_like != '0' and feed.total_like != '' %}
+            <img src="/static/redHeart.png" width="16px" class="img" id="img{{feed.pk}}">
+            {% else %}
+            <img src="/static/justHeart.gif" width="20px" class="img" id="img{{feed.pk}}">
+            {% endif %}
+            <div style="display:inline-block; color:white;">
+                {{feed.total_like}}
+            </div>
+        </div>
+        <div class="accessory">
+            <div style="display:inline-block; color:#F5DA81;" class="like_btn" data-article="{{feed.pk}}" data-status="0">
+                <img src="/static/like_icon.gif" width="16px" class="like_gray" > Like
+            </div>
+
+
+            <div class="cmt" style="display:inline-block;" >
+                <img src="/static/ic_comment.png" width="16px" > Comments
+            </div>
+        </div>
+
+    </div>
+     <!--코멘트란을 여기에-->
+    <div class="comment_box" style="display:none; width:100%; margin-left:-3%;">
+
+
+        <div class="comment_list">
+            {% for comment in feed.comments.all %}
+            <div class="comment" style="color:#F79F81; margin-top:-0.3%;">
+                <b><span class="name" id="author_name" style="color:#F7BE81;">{{ comment.author }}</span></b>
+                {{ comment.text }}
+            </div>
+            <div class="comment__date" style="color:#F5DA81; margin-left:4.8%; margin-top:0.2%;">{{ comment.created_at }}
+                <a href="/feed/{{ comment.pk }}/edit_comment"><img src="/static/ic_edit.png" height="16px"></a>
+                <a href="/feed/{{ comment.pk }}/remove_comment"><img src="/static/ic_delete.png" height="16px" style="margin-top:-0.2%; margin-left:-0.3%;"></a>
+
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="form-wrapper" style="padding-top:2%; margin-left:3.5%;">
+            <!--<hr style="color:white;">-->
+            <b><span style="margin-left:1.5%; color:#F5DA81;">
+                <!--<img src="/static/comment.gif" style="width:10%;">-->
+                PLEASE LEAVE A COMMENT!
+            </span></b><br/>
+            <!--<form action ="" method="POST">-->
+            {% csrf_token %}
+            <input type="text" class="comment_name" name="nickname" placeholder="이름" style="margin-top:0.3%;"> <br/>
+            <input type="password" class="comment_password" name="password" placeholder="비밀번호"><br/>
+            <textarea name="reply" class="comment_content" placeholder="코멘트내용"></textarea><br/>
+            <button id="c_button" type="button" class="comment_submit" data-article="{{feed.pk}}">SUBMIT</button>
+
+
+            <!--<button type="button" class="btn btn-warning">Warning</button>-->
+
+            <!--</form>-->
+        </div>
+    </div>
+
+    {% endfor %}
+    {% else %}
+    <h1> 결과가없습니다.</h1>
+    {% endif %}
+
+
+</div>
+
+<style>
+<!--모달용 style-->
+
+
+
+.modal{
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+}
+</style>
+
+<div class="modal" id="modal_delete" style="display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */">
+    <div class="form_box modal_content" style="
+        top: 30%;
+        right: 0;
+        bottom: 0;
+        left: 10px;
+    height:110px;
+        width:350px;
+    margin:0 auto;">
+
+        <form id="form_delete_feed" method="POST" action="" style="display:inline-block;">
+            {% csrf_token %}
+            <h3>삭제하시려면 비밀번호를 입력하세요.</h3>
+            <input class="input_field" type="password" placeholder="글 비번" name="password"><br>
+            <button class="write_button">삭제</button>
+            <!--<button class="write_button">-->
+            <!--<a href="#">취소</a>-->
+
+            <!--</button>-->
+        </form>
+        <button class="write_button modal_cancel" style="display:inline-block;float:left;bottom:25px;left:53px;">취소</button>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="tab1">
+        <a href="/main/"><img src="/static/ic_edit.png" width="22px" style="margin-top: 15px"></a> </div>
+    <div class="tab2">
+        <a href="/bora/"><img src="/static/bora_lee.gif" style="margin-top:4px;" height="35px" width=50px" style="margin-top: 14px"></a>
+    </div>
+
+</div>
+</body>
+
+</html>

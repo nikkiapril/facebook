@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>Main</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+  body {
+      font: 400 15px/1.8 Lato, sans-serif;
+      color: #777;
+  }
+  h3, h4 {
+      margin: 10px 0 30px 0;
+      letter-spacing: 10px;
+      font-size: 20px;
+      color: #111;
+  }
+  .container {
+      padding: 80px 120px;
+  }
+  .person {
+      border: 10px solid transparent;
+      margin-bottom: 25px;
+      width: 80%;
+      height: 80%;
+      opacity: 0.7;
+  }
+  .person:hover {
+      border-color: #f1f1f1;
+  }
+  .carousel-inner img {
+      <!-- -webkit-filter: grayscale(90%);-->
+      filter: grayscale(90%); /* make all photos black and white */
+      width: 100%; /* Set width to 100% */
+      margin: auto;
+  }
+  .carousel-caption h3 {
+      color: #fff !important;
+  }
+  @media (max-width: 600px) {
+    .carousel-caption {
+      display: none; /* Hide the carousel text when the screen is less than 600 pixels wide */
+
+    }
+  }
+  .bg-1 {
+      background: #2d2d30;
+      color: #bdbdbd;
+  }
+  .bg-1 h3 {color: #fff;}
+  .bg-1 p {font-style: italic;}
+  .list-group-item:first-child {
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+  }
+  .list-group-item:last-child {
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+  }
+  .thumbnail {
+      padding: 0 0 15px 0;
+      border: none;
+      border-radius: 0;
+  }
+  .thumbnail p {
+      margin-top: 15px;
+      color: #555;
+  }
+  .btn {
+      padding: 10px 20px;
+      background-color: #333;
+      color: #f1f1f1;
+      border-radius: 0;
+      transition: .2s;
+  }
+  .btn:hover, .btn:focus {
+      border: 1px solid #333;
+      background-color: #fff;
+      color: #000;
+  }
+  .modal-header, h4, .close {
+      background-color: #333;
+      color: #fff !important;
+      text-align: center;
+      font-size: 30px;
+  }
+  .modal-header, .modal-body {
+      padding: 40px 50px;
+  }
+  .nav-tabs li a {
+      color: #777;
+  }
+  #googleMap {
+      width: 100%;
+      height: 400px;
+      -webkit-filter: grayscale(100%);
+      filter: grayscale(100%);
+  }
+  .navbar {
+      font-family: Montserrat, sans-serif;
+      margin-bottom: 0;
+      background-color: #2d2d30;
+      border: 0;
+      font-size: 11px !important;
+      letter-spacing: 4px;
+      opacity: 0.9;
+  }
+  .navbar li a, .navbar .navbar-brand {
+      color: #565656 !important;
+  }
+  .navbar-nav li a:hover {
+      color: #fff !important;
+  }
+  .navbar-nav li.active a {
+      color: #fff !important;
+      background-color: #29292c !important;
+  }
+  .navbar-default .navbar-toggle {
+      border-color: transparent;
+  }
+  .open .dropdown-toggle {
+      color: #fff;
+      background-color: #555 !important;
+  }
+  .dropdown-menu li a {
+      color: #000 !important;
+  }
+  .dropdown-menu li a:hover {
+      background-color: red !important;
+  }
+  footer {
+      background-color: #2d2d30;
+      color: #f5f5f5;
+      padding: 32px;
+  }
+  footer a {
+      color: #f5f5f5;
+  }
+  footer a:hover {
+      color: #777;
+      text-decoration: none;
+  }
+  .form-control {
+      border-radius: 0;
+  }
+  textarea {
+      resize: none;
+  }
+  </style>
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color:white; color:black;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#myPage" style="color:black;">Bora's Home</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/main">MESSAGE</a></li>
+        <li><a href="#works">WORKS</a></li>
+        <li><a href="#bora">BORA</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+
+        <!--<li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>-->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+      <img src="/static/pu.jpg" alt="bg1" width="1200" height="700">
+      <div class="carousel-caption">
+        <h3>WECOME TO MY HOME</h3>
+        <p>You have a wonderful today!</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="/static/pu4.jpg" alt="bg2" width="1200" height="700">
+      <div class="carousel-caption">
+        <h3>HAPPY NEW YEAR</h3>
+        <p>Let's bid goodbye to this year with a positive hope and smile on our faces. Wish you a wonderful and Happy New Year dear!</p>
+      </div>
+    </div>
+
+
+
+
+
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+<!--bora-->
+<div id="bora" class="container text-center"  style="text-alight:left;">
+  <h3>ABOUT ME</h3>
+  <p><em>I love programming ! </em></p>
+  <p>
+
+
+
+
+    There still are a lot of skills and web applications and software I really want to study and make and I am still working on some of applications by myself at home and it's fun :)
+  </p>
+  <br>
+  <div class="row">
+    <div class="col-sm-4">
+      <p class="text-center"><strong>POSITIVE</strong></p><br>
+      <a href="#demo" data-toggle="collapse">
+        <img src="/static/chinatown.jpg" class="img-circle person" alt="Random Name" width="255" height="255">
+      </a>
+      <div id="demo" class="collapse">
+        <p>I believe</p>
+        <p>There are no regrets in life</p>
+        <p>Just lessons</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <p class="text-center"><strong>COFFEE LOVER</strong></p><br>
+      <a href="#demo2" data-toggle="collapse">
+        <img src="/static/coffee.gif" class="img-circle person" alt="Random Name" width="255" height="255">
+      </a>
+      <div id="demo2" class="collapse">
+        <p>I believe</p>
+        <p>Programmer is</p>
+        <p>A machine that turns coffee into code</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <p class="text-center"><strong>CREATIVE</strong></p><br>
+      <a href="#demo3" data-toggle="collapse">
+        <img src="/static/creative.jpg" class="img-circle person" alt="Random Name" width="255" height="255">
+      </a>
+      <div id="demo3" class="collapse">
+        <p>Not afraid of trying something new</p>
+        <p>Love to learn</p>
+        <p>Love to think differently</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container (TOUR Section) -->
+<!--<div id="works" class="bg-1" style="background-color:transparent;">-->
+<div id="works" class="container text-center" style="background-color:transparent;">
+
+  <h3 style="color:black; text-align:center;">WORKS</h3>
+  <!--자바-->
+  <p style="text-align:center;"><em>JAVA</em></p>
+
+  <div class="row text-center">
+
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="/static/ams.jpg" alt="AMS" width="400" height="300">
+        <p><strong>Academic Management System</strong></p>
+        <p>June 28, 2017 - Aug 4, 2017</p>
+        <button class="btn" data-toggle="modal" data-target="#myModal">Click</button>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="/static/eurecar.jpg" alt="New York" width="400" height="300">
+        <p><strong>Car Rental System</strong></p>
+        <p>April 10, 2017 - April 28, 2017</p>
+        <button class="btn" data-toggle="modal" data-target="#myModal2">Click</button>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="/static/wine.jpg" alt="San Francisco" width="400" height="300">
+        <p><strong>Online Wine Shopping Site</strong></p>
+        <p>June 5,2017 - Aug 19,2017</p>
+        <button class="btn" data-toggle="modal" data-target="#myModal3">Click</button>
+      </div>
+    </div>
+  </div>
+
+  <p style="text-align:center;"><em>ARDUINO & PYTHON</em></p>
+  <div class="row text-center">
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="/static/smart trashbin2.gif" alt="smartTrashBin" width="400" height="300">
+        <p><strong>Smart Trash Bin</strong></p>
+        <p>OCT 22,2018 - NOV 8,2018</p>
+        <button class="btn" data-toggle="modal" data-target="#myModal4">Click</button>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <img src="/static/bluetooth.gif" alt="Bluetooth" width="400" height="300">
+        <p><strong>Arduino Bluetooth Chat</strong></p>
+        <p>NOV 21,2018 - NOV 21,2018</p>
+        <button class="btn" data-toggle="modal" data-target="#myModal5">Click</button>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="thumbnail">
+
+        <img src="/static/msg2.gif" alt="messageBoard" style="width:100%;">
+        <p><strong>Message Board</strong></p>
+        <p>OCT 16,2018 - NOV 16, 2018</p>
+        <button class="btn" data-toggle="modal" data-target="#myModal6">Click</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div id="contact" class="container">
+  <h3 class="text-center">Contact</h3>
+  <!--<p class="text-center">Links</p>-->
+
+  <div class="row">
+    <div class="col-md-4" style="text-align:center;">
+      <p>Feel free to contact me :)</p>
+      <p><span class="glyphicon glyphicon-map-marker"></span>SEOUL, S.KOREA</p>
+      <p><span class="glyphicon glyphicon-phone"></span>Phone: +82 1050317101</p>
+      <p><span class="glyphicon glyphicon-envelope"></span>Email: nikkiapril@hanmail.net</p>
+    </div>
+    <div class="col-md-8">
+      <div class="row" style="text-align: center;">
+        <div class="col-sm-6 form-group" style="width:100%; margin-top:-0.5%;" >
+          - LINK -
+        </div>
+        <div class="col-sm-6 form-group" style="margin-top:-2%;">
+          <a href="https://github.com/nikkiapril/portfolio">PORTFOLIO</a>
+
+        </div>
+        <div class="col-sm-6 form-group" style="margin-top:-2%;">
+          <a href="https://nikkiapril.wixsite.com/-nikkiapril">WIX</a>
+        </div>
+        <div class="col-sm-6 form-group">
+          <a href="https://github.com/nikkiapril">GITHURB</a>
+        </div>
+        <div class="col-sm-6 form-group">
+          <a href="https://blog.naver.com/boraissocool">BLOG</a>
+        </div>
+        <div class="col-sm-6 form-group">
+          <a href="https://facebook.com/CHCOMA">FACEBOOK</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <br>
+  <div class="row">
+
+  </div>
+</div>
+</div>
+<!--Modal 학사관리-->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!--Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4></span> Academic Management System</h4>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:-20%:">
+          <div style="float:left; width:50%;"><img src="/static/tool_1.jpg" style="width:100%;"></div>
+          <div style="float:left; width:50%;"><img src="/static/board.png" style="width:100%;"></div>
+          <div><a href="http://bitly.kr/me0c">Click here to see the detail</a></div>
+          <div><p>&nbsp;6 members participated in analysis of existing AMS,
+            implementation of the main function, additional requirements analysis and implementation.</p>
+            <p>I participated in management of project plan and implementing main notice boards using mybatis and JS.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top:-3%;">
+        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+          <span class="glyphicon glyphicon-remove"></span> Cancel
+        </button>
+        <p>Need <a href="#contact">help?</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal 렌터카-->
+<div class="modal fade" id="myModal2" role="dialog">
+  <div class="modal-dialog">
+
+    <!--Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4></span> Car Rental System</h4>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:-20%:">
+          <div style="float:left; width:50%;"><img src="/static/tool_2.jpg" style="width:100%;"></div>
+          <div style="float:left; width:50%;"><img src="/static/login.png" style="width:100%;"></div>
+          <div><a href="http://bitly.kr/Z8qR">Click here to see the detail</a></div>
+          <div><p>&nbsp;Four members were participating to develop Car Rental System using JavaFx.</p>
+            <p>I participated in management of setting, packaging, interfaces, login,designing layouts using Java Fx.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top:-3%;">
+        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+          <span class="glyphicon glyphicon-remove"></span> Cancel
+        </button>
+        <p>Need <a href="#contact">help?</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal 와인샵-->
+<div class="modal fade" id="myModal3" role="dialog">
+  <div class="modal-dialog">
+
+    <!--Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4></span>Online Wine Shopping Site</h4>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:-20%:">
+          <div style="float:left; width:50%;"><img src="/static/tool_3.jpg" style="width:100%;"></div>
+          <div style="float:left; width:50%;"><img src="/static/wine2.jpg" style="width:100%;"></div>
+          <div><a href="http://bitly.kr/ObGj">Click here to see the detail</a></div>
+          <div><p>&nbsp;4 members participated in this project using JSP, jQuery, CSS, Bootstrap focusing on user driven interfaces.</p>
+            <p>I participated in working on front page using CSS, Bootsrap, JavaScript.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top:-3%;">
+        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+          <span class="glyphicon glyphicon-remove"></span> Cancel
+        </button>
+        <p>Need <a href="#contact">help?</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal 스마트휴지통-->
+<div class="modal fade" id="myModal4" role="dialog">
+  <div class="modal-dialog">
+
+    <!--Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4></span> Smart Trash Bin</h4>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:-20%:">
+          <div style="float:left; width:50%;"><img src="/static/tool_4.JPG" style="width:100%;"></div>
+          <div style="float:left; width:50%;"><img src="/static/smart1.gif" style="width:100%;"></div>
+          <div><a href="https://m.blog.naver.com/boraissocool/221394211116">Click here to see the detail</a></div>
+          <div><p>&nbsp; I made automatic trash bin with ultrasonicn sensor using C and Arduino Uno board.</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top:-3%;">
+        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+          <span class="glyphicon glyphicon-remove"></span> Cancel
+        </button>
+        <p>Need <a href="#contact">help?</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Modal 블튜-->
+<div class="modal fade" id="myModal5" role="dialog">
+  <div class="modal-dialog">
+
+    <!--Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4></span> Arduino Bluetooth Chat </h4>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:-20%:">
+          <div style="float:left; width:50%;"><img src="/static/tool_06.JPG" style="width:100%;"></div>
+          <div style="float:left; width:50%;"><img src="/static/bluetooth.gif" style="width:100%;"></div>
+          <div><a href="https://m.blog.naver.com/boraissocool/221403022225">Click here to see the detail</a></div>
+          <div><p>&nbsp;I tried Arduino Bluetooth Chat with HC06 Bluetooth chip using C and Arduino Uno board.</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top:-3%;">
+        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+          <span class="glyphicon glyphicon-remove"></span> Cancel
+        </button>
+        <p>Need <a href="#contact">help?</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal6" role="dialog">
+  <div class="modal-dialog">
+
+    <!--Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4></span> Message Board </h4>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:-20%:">
+          <div style="float:left; width:50%;"><img src="/static/tool_5.jpg" style="width:100%;"></div>
+          <div style="float:left; width:50%;"><img src="/static/msg2.gif" style="width:100%;"></div>
+          <div><a href="http://127.0.0.1:8000/main/">Click here to see the detail</a></div>
+          <div><p>&nbsp;I made message board using Python, Django Framework, SQLlite, CSS and AJAX,jQuery, bootstrap, etc.</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top:-3%;">
+        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
+          <span class="glyphicon glyphicon-remove"></span> Cancel
+        </button>
+        <p>Need <a href="#contact">help?</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<script>
+$(document).ready(function(){
+  // Initialize Tooltip
+  $('[data-toggle="tooltip"]').tooltip();
+
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+})
+</script>
+
+</body>
+</html>

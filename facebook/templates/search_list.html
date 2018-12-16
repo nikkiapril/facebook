@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Search!!</title>
+
+</head>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+            $('.like_btn').click( function() {
+                var pk = $(this).attr('data-article');
+                var click = $(this);
+                $.ajax({
+                    url:'like',
+                    dataType:'json',
+                    type:'POST',
+                    data:{
+                        'pk':pk
+                        ,'status':click.attr('data-status')
+                        , 'csrfmiddlewaretoken': '{{csrf_token}}'
+                        },
+                    success:function(result){
+                        //alert("success"+result.article_like);
+                        //alert($('#img'+pk).parent().text());
+                        $('#img'+pk).next().text(result.article_like);
+
+                        // 처음 좋아요 눌렀을때, 하트 빨갛게
+                        if(result.article_like=='1'){
+                            $('#img'+pk).attr('src', '/static/redHeart.jpg');
+                        }else if(result.article_like=='0'){
+                            $('#img'+pk).attr('src', '/static/justHeart.jpg');
+                        }
+
+                        // 좋아요 아이콘 파랗게
+                        console.log(result.status);
+                        if(result.status==0){
+                            click.find('img').attr('src', '/static/like_blue.png');
+                            click.css('color', 'blue');
+                            click.attr('data-status', '1');
+                        }else{
+                            click.find('img').attr('src', '/static/ic_like.jpg');
+                            click.css('color', 'gray');
+                            click.attr('data-status', '0');
+                        }
+                    }
+                    ,error:function(xhr, ajaxOptions, thrownError){
+                        alert("error"+xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
+
+            <!-- 코멘트 ajax -->
+            $('.comment_submit').click( function() {
+                var send_data = {
+                    "name" : $(this).prevAll(".comment_name").val()
+                    ,"password" : $(this).prevAll(".comment_password").val()
+                    ,"content" : $(this).prevAll(".comment_content").val()
+                    ,"article" : $(this).attr('data-article')
+                };
+                var comment_list = $(this).parent().prev();
+            //console.log(send_data);
+
+                $.ajax({
+                    url:'comment_write',
+                    dataType:'json',
+                    type:'POST',
+                    data:{
+                    "name" : $(this).prevAll(".comment_name").val()
+                    ,"password" : $(this).prevAll(".comment_password").val()
+                    ,"content" : $(this).prevAll(".comment_content").val()
+                    ,"article" : $(this).attr('data-article')
+                    , 'csrfmiddlewaretoken': '{{csrf_token}}'
+                    },
+                    success:function(result){
+                        //console.log(result);
+                        var add_date = result.created_at;
+                        var split_add_date = add_date.split(" ");
+                        var split_date = split_add_date[0].split("-");
+                        var year = split_date[0];
+                        var month = split_date[1];
+                        var date = split_date[2];
+                        var split_time = split_add_date[1].split(":");
+                        var hour = Number(split_time[0]);
+                        var minute = split_time[1];
+                        var ap = '';
+                        if(split_add_date[2]=='AM'){
+                            ap = '오전';
+                        }else{
+                            ap = '오후';
+                        }
+                        var check = year+'년 '+month+'월 '+date+'일 '+hour+':'+minute+' '+ap;
+
+                        var new_comment = "<div class='comment'><span class='name'>"+result.name+"</span> "+result.content+"</div>"
+                        + "<div class='comment__date'>"+check+" <a href='/feed/"+result.article+"/remove_comment'><img src='/static/ic_delete.png' height='16px'></a></div>";
+
+                        comment_list.append(new_comment);
+                        //alert("success");
+                    }
+                    ,error:function(xhr, ajaxOptions, thrownError){
+                        alert("error"+xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
+
+            $('.cmt').click( function() {
+                var show = $(this).attr('data-show');
+
+                if(show==1){
+                $(this).parent().parent().next('.comment_box').hide();
+                //    $('.comment_box').hide();
+                    $(this).attr('data-show', '0');
+                }else{
+                $(this).parent().parent().next('.comment_box').show();
+                 //   $('.comment_box').show();
+                    $(this).attr('data-show', '1');
+                }
+            });
+
+            <!--$('.img').click( function(){-->
+            <!--var src = ($(this).attr('src') === '/static/justHeart.jpg')-->
+                <!--? '/static/redHeart.jpg'-->
+                <!--: '/static/justHeart.jpg';-->
+            <!--$(this).attr('src', src);-->
+    <!--});-->
+            $('.like_gray').click( function(){
+
+            var src = ($(this).attr('src') === '/static/ic_like.jpg')
+                ? '/static/like_blue.png'
+                : '/static/ic_like.jpg';
+            $(this).attr('src', src);
+
+
+
+    });
+
+});
+
+
+$(document).ready(function() {
+            $("#keyword").keydown(function(n) {
+                if(n.keyCode==13){
+                    var k = $(this).val();
+                    location.href = '/search/'+k;
+
+
+                }
+            })
+        })
+
+
+
+</script>
+<body>
+<style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #d7d8dc; }
+        .header {
+            background-color: #475d9f;
+            color: #fff;
+            height: 42px;
+            border-bottom: 1px solid #2c3863;
+        }
+        .btn1 {
+            position: absolute;
+            left: 0px;
+        }
+        .search {
+            position: absolute;
+            left: 50px;
+            right: 50px;
+        }
+        .searchbar {
+            border: 1px solid #2c3863;
+            background-color: #323f6b;
+            width: 100%;
+            border-radius: 4px;
+            padding: 6px; margin-top: 7px;
+            color:#ffffff;
+        }
+        .btn2 {
+            position: absolute;
+            right: 0px;
+        }
+        .container {
+            background-color: #d7d8dc;
+        }
+        .footer {
+            border-top: 1px solid #cccccc;
+            background-color: #fafafa;
+            height: 50px;
+            text-align: center;
+            position:fixed; bottom: 0; left: 0; right: 0;
+        }
+        .tab1 {
+            float: left;
+            width: 25%;
+        }
+        .tab2 {
+            float: left;
+            width: 25%;
+        }
+        .tab3 {
+            float: left;
+            width: 25%;
+        }
+        .tab4 {
+            float: left;
+            width: 25%;
+        }
+        .feed {
+            background-color: #ffffff;
+            border-top: 1px solid #c0c0c0;
+            border-bottom: 1px solid #c0c0c0;
+            margin: 7px 0;
+            padding: 12px;
+        }
+        .date {
+            color: #999;
+            margin-bottom: 10px;
+        }
+        .title {
+            color: #6184dd;
+            font-weight: 600;
+        }
+        .content {
+            margin-top: 5px;
+        }
+        .accessory {
+            border-top: 1px solid #eee;
+            padding-top:10px;
+            margin-top:10px;
+            color: #999;
+            font-size: 14px;
+        }
+    </style>
+<div class="header">
+
+    <div class="btn1">
+        <a href="/new">
+            <img src="/static/ic_pencil.jpg" width="22px" style="margin:9px 0 0 13px">
+        </a></div>
+    <!--서치!!-->
+    <div class="search">
+
+            <input type="text" class="searchbar"  placeholder="Search" id="keyword" onkeyup="">
+
+    </div>
+
+    <div class="btn2"><img src="/static/ic_info.jpg" width="22px" style="margin:9px 13px 0 0"></div>
+</div>
+<div class="container">
+    {% for feed in articles %}
+    <div class="feed">
+        <h3 class="name">{{ feed.author }}</h3>
+        <div class="date">{{ feed.created_at }}</div>
+
+        <div>
+            <a href="/feed/{{ feed.pk }}/edit"><img src="/static/ic_edit.png" height="16px"></a>
+            <a href="/feed/{{ feed.pk }}/remove"><img src="/static/ic_delete.png" height="16px"></a></div>
+
+        <a class="title">{{ feed.title }}</a>
+        <p class="content">{{ feed.text }}</p>
+        <a class="more" href="/feed/{{feed.pk}}/">더보기</a>
+        <div>
+            {% if feed.total_like != '0' and feed.total_like != '' %}
+            <img src="/static/redHeart.jpg" width="16px" class="img" id="img{{feed.pk}}">
+            {% else %}
+            <img src="/static/justHeart.jpg" width="16px" class="img" id="img{{feed.pk}}">
+            {% endif %}
+            <div style="display:inline-block;">
+                {{feed.total_like}}
+            </div>
+        </div>
+        <div class="accessory">
+            <div style="display:inline-block; color:gray;" class="like_btn" data-article="{{feed.pk}}" data-status="0">
+                <img src="/static/ic_like.jpg" width="16px" class="like_gray" > Like
+            </div>
+            <!--<a href="/like_button/{{feed.pk}}/"> Like</a>-->
+            <!--<a class="more" id="like_btn" name="like" href="" value="{{feed.pk}}">like</a> &lt;!&ndash;/like_button/{{feed.pk}}/&ndash;&gt;-->
+            <!--<input type="submit" value="{{feed.pk}}" id="like_btn" />-->
+
+            <div class="cmt" style="display:inline-block;" data-show="0">
+                <img src="/static/ic_comment.jpg" width="16px" > Comments
+            </div>
+        </div>
+
+    </div>
+    <div class="comment_box" style="display:none;">
+        <!--코멘트란을 여기에-->
+
+        <div class="comment_list">
+            {% for comment in feed.comments.all %}
+            <div class="comment"><span class="name">{{ comment.author }}</span> {{ comment.text }}</div>
+            <div class="comment__date">{{ comment.created_at }} <a href="/feed/{{ comment.pk }}/remove_comment"><img src="/static/ic_delete.png" height="16px"></a></div>
+            {% endfor %}
+        </div>
+        <hr />
+        <div class="form-wrapper">
+            <span>Comments</span>
+            <!--<form action ="" method="POST">-->
+            {% csrf_token %}
+            <input type="text" class="comment_name" name="nickname" placeholder="이름"> <br/>
+            <input type="password" class="comment_password" name="password" placeholder="비밀번호"><br/>
+            <textarea name="reply" class="comment_content" placeholder="코멘트내용"></textarea>
+            <button type="button" class="comment_submit" data-article="{{feed.pk}}">등록</button>
+
+            <!--</form>-->
+        </div>
+    </div>
+
+    {% endfor %}
+
+</div>
+<div class="footer">
+    <div class="tab1"><img src="/static/ic_feed.jpg" width="22px" style="margin-top: 15px"> </div>
+    <div class="tab2"><img src="/static/ic_person.jpg" width="20px" style="margin-top: 14px"></div>
+    <div class="tab3"><img src="/static/ic_globe.jpg" width="20px" style="margin-top: 14px"> </div>
+    <div class="tab4"><img src="/static/ic_etc.jpg" width="20px" style="margin-top: 14px"></div>
+</div>
+</body>
+
+</html>
