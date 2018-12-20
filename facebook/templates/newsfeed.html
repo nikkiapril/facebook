@@ -127,11 +127,13 @@ $(document).ready(function(){
                         var check = year+'년 '+month+'월 '+date+'일 '+hour+':'+minute+' '+ap;
 
                         // 작성한 코멘트를 붙여주기
-                        var new_comment = "<div class='comment'><span class='name'>"+result.name+"</span> "+result.content
+                        var new_comment = "<div class='comment comment"+result.article+"' id='comment_content' style='color:#F79F81; margin-top:-0.3%;'>"
+                        +"<b><span class='name' id='author_name' style='color:#F7BE81;'>"+result.name+"</span></b> "
+                        +"<span id='comment_contents'>"+result.content+"</span>"
                         +"</div>"
-                        + "<div class='comment__date' style='color:#F5DA81; margin-left:4.8%; margin-top:0.2%;'>"+check
-                        +" <a href='/feed/"+result.article+"/edit_comment'><img src='/static/ic_edit.png' height='16px'></a>"
-                        +" <a href='/feed/"+result.article+"/remove_comment'><img src='/static/ic_delete.png' height='16px' style='margin-top:-0.2%; margin-left:-0.3%;'></a>"
+                        + "<div class='comment__date comment"+result.article+"' style='color:#F5DA81; margin-left:4.8%; margin-top:0.2%;'>"+check
+                        +" <img src='/static/ic_edit.png' height='16px' class='modify_comment' data-pk='"+result.article+"'>"
+                        +" <img src='/static/ic_delete.png' height='16px' style='margin-top:-0.2%; margin-left:-0.3%;' class='delete_comment' data-pk='"+result.article+"'>"
                         +"</div>";
 
                         comment_list.append(new_comment);
@@ -181,35 +183,196 @@ $(document).ready(function(){
                 $(this).attr('src', src);
             });
 
-            // delete_feed
-            $('.delete_feed').click( function(){
-                var feed_pk = $(this).parent().attr('data-pk');
-                $('#modal_delete').find('form').attr('action', '/feed/'+feed_pk+'/remove');
+            // modify_feed
+            $('.modal_modify').click(function(){
+                var url = $('#modal_modify').find('form').attr('action');
+                var modiAuth = $('#modal_modify').find('form').find('#author_mod').val();
+                var modiPwd = $('#modal_modify').find('form').find('#password').val();
+                var modiTitle = $('#modal_modify').find('form').find('#title').val();
+                var modiContent = $('#modal_modify').find('form').find('#content').val();
+                var modify_list = $('#modal_modify').find('form').attr('data-list');
+<!--console.log(modify_list);-->
+                $.ajax({
+                    url:url,
+                    dataType:'json',
+                    type:'POST',
+                    data:{
+                        'password' : modiPwd,
+                         'author' : modiAuth,
+                         'title' : modiTitle,
+                         'content' : modiContent,
+                        'csrfmiddlewaretoken': '{{csrf_token}}'
+                    },
+                    success:function(result){
+                        if(result.msg=='success'){
 
+                            if(modify_list.match(/feed/)){
+                                $('.'+modify_list+':first').find('h3').text(modiAuth);
+                                $('.'+modify_list+':first').find('a').text(modiTitle);
+                                $('.'+modify_list+':first').find('p').text(modiContent);
+                            }else if(modify_list.match(/comment/)){
+                                $('.'+modify_list+':first').find('b').children('span').text(modiAuth);
+                                $('.'+modify_list+':first').find('b').next('span').text(modiContent);
+                            }
+                            $('#modal_modify').hide();
+                        }else{
+                            $('#wrong_modipwd').show();
+                            $('#password').focus();
+                        }
+                    }
+                    ,error:function(xhr, ajaxOptions, thrownError){
+                        alert("error"+xhr.status);
+                        alert(thrownError);
+                    }
+                });
+
+            })
+
+
+            // commentDelete_feed
+             $(document).on("click", ".delete_comment", function(){
+                var comment_pk = $(this).attr('data-pk');
+                $('#modal_delete').find('form').attr('action', '/feed/'+comment_pk+'/remove_comment');
+                $('#modal_delete').find('form').attr('data-list', 'comment'+comment_pk);
+
+                $('#wrong_pwd').hide();
                 $('#modal_delete').show();
+                $('#modal_delete').find('input').val('');
                 $('#modal_delete').find('input').focus();
             });
+             // modal_delete_feed
+            $('.modal_delete').click( function(){
 
-            var submitAction = function(e) {
-                if($(this).attr('action')==''){
-                    e.preventDefault();
-                    e.stopPropagation();
-                    alert('에러가 발생해서 페이지 새로고침 후 시도해주세요.');
-                }
+                var url = $('#modal_delete').find('form').attr('action');
+                var pwd = $('#modal_delete').find('form').find('.input_field').val();
+                var delete_list = $('#modal_delete').find('form').attr('data-list');
 
-                if($(this).find('.input_field').val().trim()==''){
-                    e.preventDefault();
-                    e.stopPropagation();
-                    alert('비밀번호를 입력하세요');
-                }
-            };
-            $('#form_delete_feed').bind('submit', submitAction);
+                $.ajax({
+                    url:url,
+                    dataType:'json',
+                    type:'POST',
+                    data:{
+                        'password' : pwd,
+                        'csrfmiddlewaretoken': '{{csrf_token}}'
+                    },
+                    success:function(result){
+                        if(result.msg=='success'){
+                            $('.'+delete_list).remove();
+                            $('#modal_delete').hide();
+                        }else{
+                            $('#wrong_pwd').show();
+                            $('#modal_delete').find('input').focus();
+                        }
+                    }
+                    ,error:function(xhr, ajaxOptions, thrownError){
+                        alert("error"+xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
 
             $('.modal_cancel').click(function(){
                 $(this).parent().find('input').val('');
                 $('#modal_delete').hide();
                 $('body').css('opacity', 'initial');
             });
+
+            // 수정용 모달 취소
+            $('.modify_cancel').click(function(){
+                $(this).parent().find('input').val('');
+                $('#modal_modify').hide();
+                $('body').css('opacity', 'initial');
+            });
+
+            // delete_feed
+            $('.delete_feed').click( function(){
+                var feed_pk = $(this).parent().attr('data-pk');
+                $('#modal_delete').find('form').attr('action', '/feed/'+feed_pk+'/remove');
+                $('#modal_delete').find('form').attr('data-list', 'feed'+feed_pk);
+
+                $('#wrong_pwd').hide();
+                $('#modal_delete').show();
+                $('#modal_delete').find('input').val('');
+                $('#modal_delete').find('input').focus();
+            });
+
+            // modify_feed
+            $('.modify_feed').click( function(){
+                var feed_pk = $(this).parent().attr('data-pk');
+                $('#modal_modify').find('form').attr('action', '/feed/'+feed_pk+'/edit');
+                $('#modal_modify').find('form').attr('data-list', 'feed'+feed_pk);
+
+                var date = $(this).parent().parent();
+                var author = date.prev().text(); // user02를 가져온다
+                var title = date.next().text();
+                var content = date.next().next().text();
+
+
+                $('#title').show();
+                $('#author_mod').val(author);
+                $('#title').val(title);
+                $('#content').val(content);
+
+                $('#wrong_modipwd').hide();
+                $('#modal_modify').show();
+
+                $('#password').val('');
+                $('#modal_modify').find('input').focus();
+            });
+
+            $('.modal_cancel').click(function(){
+                $(this).parent().find('input').val('');
+                $('#modal_delete').hide();
+                $('body').css('opacity', 'initial');
+            });
+
+            // modify_comment
+            $(document).on("click", ".modify_comment", function(){
+                var comment_pk = $(this).attr('data-pk');
+                $('#modal_modify').find('form').attr('action', '/feed/'+comment_pk+'/edit_comment');
+
+                $('#modal_modify').find('form').attr('data-list', 'comment'+comment_pk);
+
+                var date = $(this).parent();// 날짜부분맞음
+                var content = date.prev().children().first().next().text();// 내용을 가져온다
+                var author = date.prev().children().first().text();
+
+
+
+                console.log($('#author_mod').val());
+                $('#title').hide();
+                $('#author_mod').val(author);
+
+                $('#content').val(content);
+
+                $('#wrong_modipwd').hide();
+                $('#modal_modify').show();
+
+                $('#password').val('');
+                $('#modal_modify').find('input').focus();
+            });
+
+            $('.modal_cancel').click(function(){
+                $(this).parent().find('input').val('');
+                $('#modal_delete').hide();
+                $('body').css('opacity', 'initial');
+            });
+
+            // modal_write
+            $('.modal_write').click( function(){
+                 $('#modal_write').show();
+
+            });
+
+            // 글쓰기 모달 취소
+            $('.write_cancel').click(function(){
+                $(this).parent().find('input').val('');
+                $('#modal_write').hide();
+                $('body').css('opacity', 'initial');
+            });
+
+
+
 
 });
 
@@ -295,8 +458,8 @@ $(document).ready(function() {
             <!--background-color: #d7d8dc;-->
         }
         .footer {
-            border-top: 1px solid #F5DA81;
-            background-color: #fafafa;
+            border-top: 1px dotted #F5DA81;
+            background-color: #F5DA81;
             height: 5px;
             text-align: center;
             position:relative; bottom: 0; left: 0; right: 0;
@@ -394,18 +557,25 @@ $(document).ready(function() {
 
 ​
     #c_button {
-        border: 1px solid #F5DA81;
-        <!--background-color: transparent;-->
-        color: #F5DA81;
-        font-weight: 500;
-        font-size: 15px;
-        padding: 3px 16px;
-        border-radius: 7px;
-        background-color:transparent;
-        width:10%;
+       background-color: transparent;
+    border: 1px solid #F5DA81;
+    color: #F5DA81;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 15px;
     }
+
+    .form_boxer {
+    background-color:transparent;
+    margin: 10px;
+    border-radius: 4px;
+    border: 1px solid #F5DA81;
+    padding: 10px;
+}
+
+
     .form_box {
-    background-color: transparent;
+    background-image: url('/static/bgc.gif');
     margin: 10px;
     border-radius: 4px;
     border: 1px solid #F5DA81;
@@ -461,8 +631,46 @@ $(document).ready(function() {
     font-size: 15px;
 }
 
+
+<!--수정용 모달-->
+
+.form_box_mod{
+    background-image:('/static/bgc.gif');
+    margin: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+.input_field_mod {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 3px 0;
+    font-size: 14px;
+    width: 100%;
+}
+.textarea_field_mod {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 3px 0;
+    font-size: 14px;
+    width: 100%;
+    height: 160px;
+}
+.write_button_mod {
+    background-color: #475d9f;
+    border: 1px solid #323f6b;
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 18px;
+}
+
+
+
     </style>
-<!---동영상플레이-->
+
 <body>
 <div class="container">
     <!--여그까지-->
@@ -487,32 +695,31 @@ $(document).ready(function() {
 
 
 </div>
-<div class="container" style="margin-top:10px;">
-    <div class="form_box">
-        <form method="POST">
-            {% csrf_token %}
+<!--<div class="container" style="margin-top:10px;">-->
+<!--<div class="form_boxer">-->
+<!--<form method="POST">-->
+<!--{% csrf_token %}-->
 
-            <!--<img src="/static/message1.gif" style="width:20%; margin-top:-10px;">-->
-            <input class="input_field" type="text" placeholder="What's your name" name="author" ><br>
-            <input class="input_field" type="password" placeholder="Temporary password" name="password"><br>
-            <input class="input_field" type="text" placeholder="Title" name="title"><br>
-            <textarea class="input_field" placeholder="Text.." name="content"></textarea><br>
+<!--&lt;!&ndash;<img src="/static/message1.gif" style="width:20%; margin-top:-10px;">&ndash;&gt;-->
+<!--<input class="input_field" type="text" placeholder="What's your name" name="author" ><br>-->
+<!--<input class="input_field" type="password" placeholder="Temporary password" name="password"><br>-->
+<!--<input class="input_field" type="text" placeholder="Title" name="title"><br>-->
+<!--<textarea class="input_field" placeholder="Text.." name="content"></textarea><br>-->
 
-            <button class="write_button"><em>Submit</em></button>
+<!--<button class="write_button"><em>Submit</em></button>-->
 
-        </form>
-    </div>
-</div>
-<div class="container">
+<!--</form>-->
+<!--</div>-->
+<!--</div>-->
+<div class="container" style="padding-bottom:60px;">
     {% if  articles %}
     {% for feed in articles %}
-    <div class="feed">
+    <div class="feed feed{{feed.pk}}">
         <h3 class="name" style="color:#F7BE81;">{{ feed.author }}</h3>
         <div class="date">
             <h4 data-pk="{{feed.pk}}">{{ feed.created_at }}
-                <a href="/feed/{{ feed.pk }}/edit" style="margin-left: 6px;"><img src="/static/ic_edit.png" height="16px"></a>
-                <!--<a href="/feed/{{ feed.pk }}/remove"  style="margin-left:-2px;"><img src="/static/ic_delete.png" height="16px"></a></h4>-->
-                <img src="/static/ic_delete.png" class="delete_feed" height="16px" style="margin-top:-0.2%; margin-left:-0.3%"></h4>
+                <img src="/static/ic_edit.png" height="16px" class="modify_feed">
+                <img src="/static/ic_delete.png" class="delete_feed" height="16px" style="margin-top:-0.2%; margin-left:-0.4%"></h4>
         </div>
 
 
@@ -542,25 +749,25 @@ $(document).ready(function() {
         </div>
 
     </div>
-     <!--코멘트란을 여기에-->
-    <div class="comment_box" style="display:none; width:100%; margin-left:-3%;">
+    <!--코멘트란을 여기에-->
+    <div class="comment_box feed{{feed.pk}}" style="display:none; width:100%; margin-left:-3%;">
 
 
         <div class="comment_list">
             {% for comment in feed.comments.all %}
-            <div class="comment" style="color:#F79F81; margin-top:-0.3%;">
+            <div class="comment comment{{comment.pk}}" id="comment_content" style="color:#F79F81; margin-top:-0.3%;">
                 <b><span class="name" id="author_name" style="color:#F7BE81;">{{ comment.author }}</span></b>
-                {{ comment.text }}
+                <span id="comment_contents">{{ comment.text }}</span>
             </div>
-            <div class="comment__date" style="color:#F5DA81; margin-left:4.8%; margin-top:0.2%;">{{ comment.created_at }}
-                <a href="/feed/{{ comment.pk }}/edit_comment"><img src="/static/ic_edit.png" height="16px"></a>
-                <a href="/feed/{{ comment.pk }}/remove_comment"><img src="/static/ic_delete.png" height="16px" style="margin-top:-0.2%; margin-left:-0.3%;"></a>
+            <div class="comment__date comment{{comment.pk}}" style="color:#F5DA81; margin-left:4.8%; margin-top:0.2%;">{{ comment.created_at }}
+                <img src="/static/ic_edit.png" height="16px" class="modify_comment" data-pk="{{ comment.pk }}">
+                <img src="/static/ic_delete.png" height="16px" style="margin-top:-0.2%; margin-left:-0.3%;" class="delete_comment" data-pk="{{ comment.pk }}">
 
             </div>
             {% endfor %}
         </div>
 
-        <div class="form-wrapper" style="padding-top:2%; margin-left:3.5%;">
+        <div class="form-wrapper" style="padding-top:3%; margin-left:3.5%;">
             <!--<hr style="color:white;">-->
             <b><span style="margin-left:1.5%; color:#F5DA81;">
                 <!--<img src="/static/comment.gif" style="width:10%;">-->
@@ -568,21 +775,30 @@ $(document).ready(function() {
             </span></b><br/>
             <!--<form action ="" method="POST">-->
             {% csrf_token %}
-            <input type="text" class="comment_name" name="nickname" placeholder="이름" style="margin-top:0.3%;"> <br/>
-            <input type="password" class="comment_password" name="password" placeholder="비밀번호"><br/>
-            <textarea name="reply" class="comment_content" placeholder="코멘트내용"></textarea><br/>
-            <button id="c_button" type="button" class="comment_submit" data-article="{{feed.pk}}">SUBMIT</button>
+            <input type="text" class="comment_name" name="nickname" placeholder="Name" style="margin-top:0.3%;"> <br/>
+            <input type="password" class="comment_password" name="password" placeholder="Password"><br/>
+            <textarea name="reply" class="comment_content" placeholder="Comment" style="margin-bottom:-2.1%;"></textarea>
 
 
-            <!--<button type="button" class="btn btn-warning">Warning</button>-->
 
-            <!--</form>-->
+
+
+            <button id="c_button" type="button" class="comment_submit" data-article="{{feed.pk}}" style="background-color:transparent;border: 1px solid #F5DA81;color: #F5DA81;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 15px;">SUBMIT</button>
+
         </div>
+
+
+
+
     </div>
 
     {% endfor %}
     {% else %}
-    <h1> 결과가없습니다.</h1>
+    <h1 style="color:#F5DA81; text-align:center;"> Sorry</br> There are no posts :(</h1><br/>
+    <div style="text-align:center; margin-top:-3%;"><h5><a href="/main">Click back to the message board</a></h5></div>
     {% endif %}
 
 
@@ -607,6 +823,7 @@ $(document).ready(function() {
 }
 </style>
 
+<!--삭제용모달-->
 <div class="modal" id="modal_delete" style="display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -617,34 +834,105 @@ $(document).ready(function() {
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.6); /* Black w/ opacity */">
-    <div class="form_box modal_content" style="
+    <div class="form_box form_delete_feed" style="
         top: 30%;
         right: 0;
         bottom: 0;
         left: 10px;
-    height:110px;
-        width:350px;
-    margin:0 auto;">
+        height:125px;
+        width:315px;
+        margin:0 auto;" >
 
-        <form id="form_delete_feed" method="POST" action="" style="display:inline-block;">
+        <form id="form_delete_feed" method="POST" action="" style="display:inline-block; color:#F5DA81; ">
             {% csrf_token %}
-            <h3>삭제하시려면 비밀번호를 입력하세요.</h3>
-            <input class="input_field" type="password" placeholder="글 비번" name="password"><br>
-            <button class="write_button">삭제</button>
+            <h4>Password</h4>
+            <input class="input_field" type="password" placeholder="글 비번" name="password" style="margin-bottom:4%;"><br>
+
             <!--<button class="write_button">-->
             <!--<a href="#">취소</a>-->
 
             <!--</button>-->
         </form>
-        <button class="write_button modal_cancel" style="display:inline-block;float:left;bottom:25px;left:53px;">취소</button>
+
+        <button class="write_button modal_delete" style="display:inline-block;">삭제</button>
+        <button class="write_button modal_cancel" style="display:inline-block;">취소</button>
+        <p id="wrong_pwd" style="color:red;font-size:0.7em;display:none;"><b>Password do not match.</br> Please verify correct password.</b></p>
+    </div>
+</div>
+<!--수정용모달-->
+<div class="modal" id="modal_modify" style="display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */">
+    <div class="form_box modal_content" style="top:20%;margin:0 auto;width:300px;height:398px;padding-left:15px;  padding-right:15px;padding-bottom:10px;">
+
+        <form id="form_modify_feed" method="POST" action="" style="display:inline-block; color:#F5DA81;width:100%;">
+            {% csrf_token %}
+            <h4>MODIFY</h4>
+            <input class="input_field_mod" type="text" placeholder="글쓴이의 이름은?" id="author_mod" name="author" style="color:#F7BE81; display:block;margin-bottom:5px;">
+            <input class="input_field_mod" type="password" placeholder="글 비밀번호" id="password" name="password" style="display:block;margin-bottom:5px;">
+            <input class="input_field_mod" type="text" placeholder="제목을 입력해주세요." id="title" name="title" style="display:block;margin-bottom:5px;color:#F79F81; font-weight:600;">
+            <textarea class="textarea_field_mod" placeholder="내용을 입력해주세요." id="content" name="content" style="display:block;margin-bottom:5px;color:#F79F81;"></textarea>
+
+            <!--<button class="write_button">-->
+            <!--<a href="#">취소</a>-->
+
+            <!--</button>-->
+        </form>
+        <div style="margin-left:85px;;">
+            <button class="write_button modal_modify" style="display:inline-block;">수정</button>
+            <button class="write_button modify_cancel" style="display:inline-block;">취소</button>
+        </div>
+        <p id="wrong_modipwd" style="color:red;font-size:0.7em; margin-top:5%; display:none;text-align:center;"><b>Password do not match.</br> Please verify correct password.</b></p>
+    </div>
+</div>
+<!--글쓰기용 모달-->
+<div class="modal" id="modal_write" style="display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */">
+    <div class="form_box modal_content" style="top:20%;margin:0 auto;width:330px;height:380px;padding-left:15px;padding-right:15px;padding-bottom:10px;">
+        <form id="form_write_feed" method="POST"  style="display:inline-block; margin-top:0%; color:#F5DA81; width:100%;">
+
+            {% csrf_token %}
+
+            <img src="/static/message_board.gif" style="width:100%; margin-bottom:2%;">
+            <input class="input_field" type="text" placeholder="What's your name" name="author" ><br>
+            <input class="input_field" type="password" placeholder="Temporary password" name="password"><br>
+            <input class="input_field" type="text" placeholder="Title" name="title"><br>
+            <textarea class="input_field" placeholder="Text.." name="content" style="height:135px;"></textarea><br>
+            <button class="write_button modal_write_button" style="margin-left:29.5%; margin-top:-1.8%;"><em>Submit</em></button>
+            <!--<button class="write_button write_cancel" style="display:inline-block;">취소</button>-->
+        </form>
+        <button class="write_button write_cancel" style="margin-top:-27px; margin-right:26.5%; float:right;"><em>Cancel</em></button>
+        <div style="margin-left:85px;">
+            <!--<button class="write_button modal_modify" style="display:inline-block;">수정</button>-->
+
+
+        </div>
+        <!--<b><p id="wrong_modipwd" style="color:red;font-size:0.7em;display:none; margin-top:2.5%; text-align:center;">비밀번호가 일치하지않습니다.</p></b>-->
     </div>
 </div>
 
-<div class="footer">
-    <div class="tab1">
-        <a href="/main/"><img src="/static/ic_edit.png" width="22px" style="margin-top: 15px"></a> </div>
-    <div class="tab2">
-        <a href="/bora/"><img src="/static/bora_lee.gif" style="margin-top:4px;" height="35px" width=50px" style="margin-top: 14px"></a>
+
+<!--footer-->
+<div class="footer" style="position:fixed;bottom:30px;background: transparent; z-index:5">
+    <div class="tab1" style="background-image:url('/static/bgc.gif'); height:35px;">
+        <img src="/static/ic_edit.png" width="20px" style="margin-top: 10px;" class="modal_write"> </div>
+    <div class="tab2" style="background-image:url('/static/bgc.gif'); height:35px;">
+        <a href="/#bora"><img src="/static/bora_lee.gif" style="margin-top:-1px; " height="34px" width=50px"></a>
     </div>
 
 </div>

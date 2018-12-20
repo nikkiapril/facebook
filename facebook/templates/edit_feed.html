@@ -5,14 +5,15 @@
     <title>Title</title>
 </head>
 <style>
-.form_box {
-    background-color: #ffffff;
+
+.form_box_mod{
+    background-image:('/static/bgc.gif');
     margin: 10px;
     border-radius: 4px;
     border: 1px solid #ddd;
     padding: 10px;
 }
-.input_field {
+.input_field_mod {
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 4px;
@@ -20,7 +21,7 @@
     font-size: 14px;
     width: 100%;
 }
-.textarea_field {
+.textarea_field_mod {
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 4px;
@@ -29,7 +30,7 @@
     width: 100%;
     height: 160px;
 }
-.write_button {
+.write_button_mod {
     background-color: #475d9f;
     border: 1px solid #323f6b;
     color: #ffffff;
@@ -41,17 +42,17 @@
 
 <body>
 
-<div class="form_box">
+<div class="form_box_mod">
     <form method="POST">
         {% csrf_token %}
     <h3>수정</h3>
 
-    <input class="input_field" type="text" placeholder="글쓴이의 이름은?" name="author" value="{{feed.author}}" ><br>
-    <input class="input_field" type="password" placeholder="글 비밀번호" name="password" value="{{feed.password}}" ><br>
-    <input class="input_field" type="text" placeholder="제목을 입력해주세요." name="title" value="{{feed.title}}"><br>
-    <textarea class="input_field" placeholder="내용을 입력해주세요." name="content">{{feed.text}}</textarea><br>
+    <input class="input_field_mod" type="text" placeholder="글쓴이의 이름은?" name="author" value="{{feed.author}}" ><br>
+    <input class="input_field_mod" type="password" placeholder="글 비밀번호" name="password" value="{{feed.password}}" ><br>
+    <input class="input_field_mod" type="text" placeholder="제목을 입력해주세요." name="title" value="{{feed.title}}"><br>
+    <textarea class="textarea_field_mod" placeholder="내용을 입력해주세요." name="content">{{feed.text}}</textarea><br>
 
-    <button class="write_button">수정</button>
+    <button class="write_button_mod">수정</button>
 
     </form>
 </div>

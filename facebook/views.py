@@ -171,64 +171,85 @@ def new_feed(request):
 
 # 삭제페이지
 def remove_feed(request,pk):
-    article = Article.objects.get(pk=pk)
-    if request.method =='POST':
-         if request.POST['password'] == article.password:
-             article.delete()
-             return redirect('/main')
-         else:
-             return redirect('/fail/')
-    return  render(request, 'remove_feed.html',{'feed':article})
+    if request.method == 'POST' and request.is_ajax():
+        # pk = request.POST["pk"]
+        article = Article.objects.get(pk=pk)
+        if request.POST['password'] == article.password:
+            article.delete()
+            return HttpResponse(json.dumps({"msg": "success"}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({"msg": "failure"}), content_type="application/json")
+    else:
+        articles = Article.objects.all()
+
+        return render(request, 'newsfeed.html', {'articles': articles})
 
 # 코멘트 삭제 페이지
 def remove_comment(request, pk):
-    comment = Comment.objects.get(pk=pk)
-    if request.method=='POST':
+    # comment = Comment.objects.get(pk=pk)
+    # if request.method=='POST':
+    #     if request.POST['password'] == comment.password:
+    #         comment.delete()
+    #         return redirect('/main')
+    #     else:
+    #         return redirect('/fail/')
+    # return  render(request, 'remove_comment.html',{'comment':comment})
+
+    if request.method == 'POST' and request.is_ajax():
+        # pk = request.POST["pk"]
+        comment = Comment.objects.get(pk=pk)
         if request.POST['password'] == comment.password:
             comment.delete()
-            return redirect('/main')
+            return HttpResponse(json.dumps({"msg": "success"}), content_type="application/json")
         else:
-            return redirect('/fail/')
-    return  render(request, 'remove_comment.html',{'comment':comment})
+            return HttpResponse(json.dumps({"msg": "failure"}), content_type="application/json")
+    else:
+        articles = Article.objects.all()
 
-# 오류메세지 페이지
-def fail(request):
-
-    return render(request, 'fail.html')
-
+        return render(request, 'newsfeed.html', {'articles': articles})
 
 # 수정페이지
 def edit_feed(request, pk):
-    article = Article.objects.get(pk=pk)
+    articles = Article.objects.get(pk=pk)
 
-    if request.method == 'POST':
-        if request.POST['password'] == article.password:
-            article.author = request.POST['author']
-            article.title = request.POST['title']
-            article.text = request.POST['content']
-            article.save()
-            return redirect('/main')
+    if request.method == 'POST'and request.is_ajax():
+        if request.POST['password'] == articles.password:
+            articles.author = request.POST['author']
+            articles.title = request.POST['title']
+            articles.text = request.POST['content']
+            articles.save()
+            return HttpResponse(json.dumps({"msg": "success"}), content_type="application/json")
         else:
-            return redirect('/fail/')
-            #return redirect(f'/feed/{article.pk}')
+            return HttpResponse(json.dumps({"msg": "failure"}), content_type="application/json")
+    else:
+        articles = Article.objects.all()
 
 
-    return render(request, 'edit_feed.html', {'feed': article})
+    return render(request, 'newsfeed.html', {'articles': articles})
 
 # 코멘트 수정페이지
 def edit_comment(request, pk):
 
     comment = Comment.objects.get(pk=pk)
-    if request.method == 'POST':
+    if request.method == 'POST'and request.is_ajax():
         if request.POST['password'] == comment.password:
             comment.author = request.POST['author']
+            comment.title = request.POST['title']
             comment.text = request.POST['content']
             comment.save()
-            return redirect('/main')
+            return HttpResponse(json.dumps({"msg": "success"}), content_type="application/json")
         else:
-            return redirect('/fail/')
+            return HttpResponse(json.dumps({"msg": "failure"}), content_type="application/json")
+    else:
+        comment = Comment.objects.all()
 
-    return render(request, 'edit_comment.html', {'feed': comment})
+    return render(request, 'newsfeed.html', {'feed': comment})
+
+
+# 오류메세지 페이지
+def fail(request):
+
+    return render(request, 'fail.html')
 
 def new_page(request):
     if request.method == 'POST':
