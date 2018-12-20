@@ -157,14 +157,15 @@ def detail_feed(request, pk):
 
 #글쓰기?!
 def new_feed(request):
-    if request.method == 'POST': # 폼이 전송되었을 때만 아래 코드를 실행
-        new_article = Article.objects.create(
-            author=request.POST['author'],
-            title=request.POST['title'],
-            text=request.POST['content'],
-            password=request.POST['password']
-        )
-        return redirect('/main')
+    # if request.method == 'POST': # 폼이 전송되었을 때만 아래 코드를 실행
+    #     # if(request.method)
+    #     new_article = Article.objects.create(
+    #         author=request.POST['author'],
+    #         title=request.POST['title'],
+    #         text=request.POST['content'],
+    #         password=request.POST['password']
+    #     )
+    #     return redirect('/main')
         # 새글 등록 끝
 
     return render(request, 'new_feed.html')
@@ -280,7 +281,7 @@ def remove(request):
 
 def search_list(request, author):
 
-    article_list = Article.objects.filter(author=author)
+    article_list = Article.objects.filter(author__iexact=author)
 
 
     return render(request, 'newsfeed.html', { 'articles': list(article_list)})

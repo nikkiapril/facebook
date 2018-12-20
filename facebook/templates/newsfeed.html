@@ -360,13 +360,57 @@ $(document).ready(function(){
 
             // modal_write
             $('.modal_write').click( function(){
+                $(this).parent().find('input[name=csrfmiddlewaretoken]').siblings().val('');
                  $('#modal_write').show();
-
             });
+
+            $('#writy').click(function() {
+                alert("양식에 들어옴");
+
+
+
+                 var textarea = $(this).prev().val();
+                 var title = $(this).prev().prev().val();
+                 var password = $(this).prev().prev().prev().val();
+                 var author = $(this).prev().prev().prev().prev().val();
+
+                 var p = 0;
+
+                 var list = [textarea,title,password,author]
+
+                 for(var i=0 ; i < list.length ; i++){
+                    if (list[i] === ""|| list[i] === undefined || list[i] === null){
+
+
+
+                             alert("항목을 전부 다 입력해주세요~!");
+                            break;
+
+                        }else{
+
+                            p=1;
+
+
+                        }
+                      }
+
+
+                 if(p == 1){
+                    $('#writy').parent().submit();
+
+                 }
+
+
+
+
+
+             });
+
+
 
             // 글쓰기 모달 취소
             $('.write_cancel').click(function(){
-                $(this).parent().find('input').val('');
+                $(this).parent().find('input[name=csrfmiddlewaretoken]').siblings().val('');
                 $('#modal_write').hide();
                 $('body').css('opacity', 'initial');
             });
@@ -695,22 +739,7 @@ $(document).ready(function() {
 
 
 </div>
-<!--<div class="container" style="margin-top:10px;">-->
-<!--<div class="form_boxer">-->
-<!--<form method="POST">-->
-<!--{% csrf_token %}-->
 
-<!--&lt;!&ndash;<img src="/static/message1.gif" style="width:20%; margin-top:-10px;">&ndash;&gt;-->
-<!--<input class="input_field" type="text" placeholder="What's your name" name="author" ><br>-->
-<!--<input class="input_field" type="password" placeholder="Temporary password" name="password"><br>-->
-<!--<input class="input_field" type="text" placeholder="Title" name="title"><br>-->
-<!--<textarea class="input_field" placeholder="Text.." name="content"></textarea><br>-->
-
-<!--<button class="write_button"><em>Submit</em></button>-->
-
-<!--</form>-->
-<!--</div>-->
-<!--</div>-->
 <div class="container" style="padding-bottom:60px;">
     {% if  articles %}
     {% for feed in articles %}
@@ -904,16 +933,17 @@ $(document).ready(function() {
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.6); /* Black w/ opacity */">
     <div class="form_box modal_content" style="top:20%;margin:0 auto;width:330px;height:380px;padding-left:15px;padding-right:15px;padding-bottom:10px;">
-        <form id="form_write_feed" method="POST"  style="display:inline-block; margin-top:0%; color:#F5DA81; width:100%;">
+        <form id="form_write_feed" method="POST" action="" style="display:inline-block; margin-top:0%; color:#F5DA81; width:100%;">
 
             {% csrf_token %}
 
             <img src="/static/message_board.gif" style="width:100%; margin-bottom:2%;">
-            <input class="input_field" type="text" placeholder="What's your name" name="author" ><br>
-            <input class="input_field" type="password" placeholder="Temporary password" name="password"><br>
-            <input class="input_field" type="text" placeholder="Title" name="title"><br>
-            <textarea class="input_field" placeholder="Text.." name="content" style="height:135px;"></textarea><br>
-            <button class="write_button modal_write_button" style="margin-left:29.5%; margin-top:-1.8%;"><em>Submit</em></button>
+
+            <input class="input_field" type="text" placeholder="What's your name" name="author" value="" style="display:block;">
+            <input class="input_field" type="password" placeholder="Temporary password" name="password" value="" style="display:block;">
+            <input class="input_field" type="text" placeholder="Title" name="title" style="display:block;">
+            <textarea class="input_field" placeholder="Text.." name="content" style="height:135px;" style="display:block;"></textarea>
+            <button class="write_button modal_write_button" type="button" id="writy" style="margin-left:29.5%; margin-top:-1.8%;"><em>Submit</em></button>
             <!--<button class="write_button write_cancel" style="display:inline-block;">취소</button>-->
         </form>
         <button class="write_button write_cancel" style="margin-top:-27px; margin-right:26.5%; float:right;"><em>Cancel</em></button>
@@ -929,9 +959,9 @@ $(document).ready(function() {
 
 <!--footer-->
 <div class="footer" style="position:fixed;bottom:30px;background: transparent; z-index:5">
-    <div class="tab1" style="background-image:url('/static/bgc.gif'); height:35px;">
+    <div class="tab1" style="background-color:#4A2818; height:35px;opacity:0.8;">
         <img src="/static/ic_edit.png" width="20px" style="margin-top: 10px;" class="modal_write"> </div>
-    <div class="tab2" style="background-image:url('/static/bgc.gif'); height:35px;">
+    <div class="tab2" style="background-color:#4A2818; height:35px;opacity:0.8;">
         <a href="/#bora"><img src="/static/bora_lee.gif" style="margin-top:-1px; " height="34px" width=50px"></a>
     </div>
 
