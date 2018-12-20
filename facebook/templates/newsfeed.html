@@ -606,7 +606,7 @@ $(document).ready(function() {
     color: #F5DA81;
     border-radius: 4px;
     padding: 2px 8px;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .form-wrapper input,
@@ -840,7 +840,7 @@ $(document).ready(function() {
         bottom: 0;
         left: 10px;
         height:125px;
-        width:315px;
+        width:335px;
         margin:0 auto;" >
 
         <form id="form_delete_feed" method="POST" action="" style="display:inline-block; color:#F5DA81; ">
@@ -854,8 +854,8 @@ $(document).ready(function() {
             <!--</button>-->
         </form>
 
-        <button class="write_button modal_delete" style="display:inline-block;">삭제</button>
-        <button class="write_button modal_cancel" style="display:inline-block;">취소</button>
+        <button class="write_button modal_delete" style="display:inline-block;">Delete</button>
+        <button class="write_button modal_cancel" style="display:inline-block;">Cancel</button>
         <p id="wrong_pwd" style="color:red;font-size:0.7em;display:none;"><b>Password do not match.</br> Please verify correct password.</b></p>
     </div>
 </div>
@@ -874,7 +874,7 @@ $(document).ready(function() {
 
         <form id="form_modify_feed" method="POST" action="" style="display:inline-block; color:#F5DA81;width:100%;">
             {% csrf_token %}
-            <h4>MODIFY</h4>
+            <h4>UPDATE</h4>
             <input class="input_field_mod" type="text" placeholder="글쓴이의 이름은?" id="author_mod" name="author" style="color:#F7BE81; display:block;margin-bottom:5px;">
             <input class="input_field_mod" type="password" placeholder="글 비밀번호" id="password" name="password" style="display:block;margin-bottom:5px;">
             <input class="input_field_mod" type="text" placeholder="제목을 입력해주세요." id="title" name="title" style="display:block;margin-bottom:5px;color:#F79F81; font-weight:600;">
@@ -886,8 +886,8 @@ $(document).ready(function() {
             <!--</button>-->
         </form>
         <div style="margin-left:85px;;">
-            <button class="write_button modal_modify" style="display:inline-block;">수정</button>
-            <button class="write_button modify_cancel" style="display:inline-block;">취소</button>
+            <button class="write_button modal_modify" style="display:inline-block;">Update</button>
+            <button class="write_button modify_cancel" style="display:inline-block;">Cancel</button>
         </div>
         <p id="wrong_modipwd" style="color:red;font-size:0.7em; margin-top:5%; display:none;text-align:center;"><b>Password do not match.</br> Please verify correct password.</b></p>
     </div>
