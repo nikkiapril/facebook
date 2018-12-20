@@ -63,6 +63,22 @@ $(document).ready(function(){
 
             <!-- 코멘트 ajax -->
             $('.comment_submit').click( function() {
+
+                     var name = $(this).prevAll(".comment_name").val();
+                     var password = $(this).prevAll(".comment_password").val();
+                     var content = $(this).prevAll(".comment_content").val();
+                     var article = $(this).attr('data-article');
+
+                var list = [name, password, content];
+
+                 for(var i=0 ; i < list.length ; i++){
+                    if (list[i] === ""|| list[i] === undefined || list[i] === null){
+                        alert("항목을 전부 다 입력해주세요~!");
+                        return;
+
+                    }
+                 }
+
                 // 코멘트작성시 이름,비밀번호,내용,게시글번호 전송
                 var send_data = {
                     "name" : $(this).prevAll(".comment_name").val()
@@ -191,6 +207,20 @@ $(document).ready(function(){
                 var modiTitle = $('#modal_modify').find('form').find('#title').val();
                 var modiContent = $('#modal_modify').find('form').find('#content').val();
                 var modify_list = $('#modal_modify').find('form').attr('data-list');
+
+                var list = [modiAuth,modiContent];
+
+                if(modify_list.match(/feed/)){
+                    list.push(modiTitle);
+                }
+
+                 for(var i=0 ; i < list.length ; i++){
+                    if (list[i] === ""|| list[i] === undefined || list[i] === null){
+                        alert("항목을 전부 다 입력해주세요~!");
+                        return;
+
+                    }
+                 }
 <!--console.log(modify_list);-->
                 $.ajax({
                     url:url,
@@ -231,6 +261,7 @@ $(document).ready(function(){
 
             // commentDelete_feed
              $(document).on("click", ".delete_comment", function(){
+
                 var comment_pk = $(this).attr('data-pk');
                 $('#modal_delete').find('form').attr('action', '/feed/'+comment_pk+'/remove_comment');
                 $('#modal_delete').find('form').attr('data-list', 'comment'+comment_pk);
@@ -246,7 +277,9 @@ $(document).ready(function(){
                 var url = $('#modal_delete').find('form').attr('action');
                 var pwd = $('#modal_delete').find('form').find('.input_field').val();
                 var delete_list = $('#modal_delete').find('form').attr('data-list');
-
+                    <!--if(pwd === "" || pwd === null || pwd === undefined){-->
+                        <!--alert("Please type the password");-->
+                    <!--}-->
                 $.ajax({
                     url:url,
                     dataType:'json',
@@ -319,7 +352,7 @@ $(document).ready(function(){
 
                 $('#password').val('');
                 $('#modal_modify').find('input').focus();
-                $('#modal_modify').find('input[name=csrfmiddlewaretoken]').siblings().val('');
+                //$('#modal_modify').find('input[name=csrfmiddlewaretoken]').siblings().val('');
             });
 
             $('.modal_cancel').click(function(){
@@ -350,7 +383,7 @@ $(document).ready(function(){
 
                 $('#password').val('');
                 $('#modal_modify').find('input').focus();
-                $('#modal_modify').find('input[name=csrfmiddlewaretoken]').siblings().val('');
+                //$('#modal_modify').find('input[name=csrfmiddlewaretoken]').siblings().val('');
             });
 
             $('.modal_cancel').click(function(){
@@ -366,7 +399,6 @@ $(document).ready(function(){
             });
 
             $('#writy').click(function() {
-                <!--alert("양식에 들어옴");-->
 
                  var textarea = $(this).prev().val();
                  var title = $(this).prev().prev().val();
@@ -380,7 +412,7 @@ $(document).ready(function(){
                  for(var i=0 ; i < list.length ; i++){
                     if (list[i] === ""|| list[i] === undefined || list[i] === null){
                         alert("항목을 전부 다 입력해주세요~!");
-                        break;
+                        return;
                     }else{
                         p=1;
                     }
@@ -390,6 +422,7 @@ $(document).ready(function(){
                     $('#writy').parent().submit();
                  }
              });
+
 
 
 
