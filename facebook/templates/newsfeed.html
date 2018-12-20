@@ -237,7 +237,6 @@ $(document).ready(function(){
 
                 $('#wrong_pwd').hide();
                 $('#modal_delete').show();
-                $('#modal_delete').find('input').val('');
                 $('#modal_delete').find('input').focus();
             });
              // modal_delete_feed
@@ -272,14 +271,14 @@ $(document).ready(function(){
             });
 
             $('.modal_cancel').click(function(){
-                $(this).parent().find('input').val('');
+                $(this).parent().find('input[name=csrfmiddlewaretoken]').siblings().val('');
                 $('#modal_delete').hide();
                 $('body').css('opacity', 'initial');
             });
 
             // 수정용 모달 취소
             $('.modify_cancel').click(function(){
-                $(this).parent().find('input').val('');
+                $(this).parent().find('input[name=csrfmiddlewaretoken]').siblings().val('');
                 $('#modal_modify').hide();
                 $('body').css('opacity', 'initial');
             });
@@ -292,7 +291,7 @@ $(document).ready(function(){
 
                 $('#wrong_pwd').hide();
                 $('#modal_delete').show();
-                $('#modal_delete').find('input').val('');
+                $('#modal_delete').find('input[name=csrfmiddlewaretoken]').siblings().val('');
                 $('#modal_delete').find('input').focus();
             });
 
