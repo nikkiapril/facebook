@@ -238,6 +238,7 @@ $(document).ready(function(){
                 $('#wrong_pwd').hide();
                 $('#modal_delete').show();
                 $('#modal_delete').find('input').focus();
+                $('#modal_delete').find('input[name=csrfmiddlewaretoken]').siblings().val('');
             });
              // modal_delete_feed
             $('.modal_delete').click( function(){
@@ -293,6 +294,7 @@ $(document).ready(function(){
                 $('#modal_delete').show();
                 $('#modal_delete').find('input[name=csrfmiddlewaretoken]').siblings().val('');
                 $('#modal_delete').find('input').focus();
+                $('#modal_delete').find('input[name=csrfmiddlewaretoken]').siblings().val('');
             });
 
             // modify_feed
@@ -317,6 +319,7 @@ $(document).ready(function(){
 
                 $('#password').val('');
                 $('#modal_modify').find('input').focus();
+                $('#modal_modify').find('input[name=csrfmiddlewaretoken]').siblings().val('');
             });
 
             $('.modal_cancel').click(function(){
@@ -347,6 +350,7 @@ $(document).ready(function(){
 
                 $('#password').val('');
                 $('#modal_modify').find('input').focus();
+                $('#modal_modify').find('input[name=csrfmiddlewaretoken]').siblings().val('');
             });
 
             $('.modal_cancel').click(function(){
