@@ -43,7 +43,7 @@ $(document).ready(function(){
                         }
 
                         // 좋아요 아이콘 파랗게
-                        console.log(result.status);
+                        <!--console.log(result.status);-->
                         if(result.status==0){
                             click.find('img').attr('src', '/static/thankyou.gif');
                             click.css('color', '#FE642E');
@@ -321,7 +321,7 @@ $(document).ready(function(){
             });
 
             $('.modal_cancel').click(function(){
-                $(this).parent().find('input').val('');
+                $(this).parent().find('input[name=csrfmiddlewaretoken]').siblings().val('');
                 $('#modal_delete').hide();
                 $('body').css('opacity', 'initial');
             });
@@ -337,9 +337,7 @@ $(document).ready(function(){
                 var content = date.prev().children().first().next().text();// 내용을 가져온다
                 var author = date.prev().children().first().text();
 
-
-
-                console.log($('#author_mod').val());
+                <!--console.log($('#author_mod').val());-->
                 $('#title').hide();
                 $('#author_mod').val(author);
 
@@ -353,7 +351,7 @@ $(document).ready(function(){
             });
 
             $('.modal_cancel').click(function(){
-                $(this).parent().find('input').val('');
+                $(this).parent().find('input[name=csrfmiddlewaretoken]').siblings().val('');
                 $('#modal_delete').hide();
                 $('body').css('opacity', 'initial');
             });
@@ -365,9 +363,7 @@ $(document).ready(function(){
             });
 
             $('#writy').click(function() {
-                alert("양식에 들어옴");
-
-
+                <!--alert("양식에 들어옴");-->
 
                  var textarea = $(this).prev().val();
                  var title = $(this).prev().prev().val();
@@ -380,30 +376,16 @@ $(document).ready(function(){
 
                  for(var i=0 ; i < list.length ; i++){
                     if (list[i] === ""|| list[i] === undefined || list[i] === null){
-
-
-
-                             alert("항목을 전부 다 입력해주세요~!");
-                            break;
-
-                        }else{
-
-                            p=1;
-
-
-                        }
-                      }
-
+                        alert("항목을 전부 다 입력해주세요~!");
+                        break;
+                    }else{
+                        p=1;
+                    }
+                 }
 
                  if(p == 1){
                     $('#writy').parent().submit();
-
                  }
-
-
-
-
-
              });
 
 
