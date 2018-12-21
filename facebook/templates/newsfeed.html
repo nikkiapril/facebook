@@ -73,7 +73,7 @@ $(document).ready(function(){
 
                  for(var i=0 ; i < list.length ; i++){
                     if (list[i] === ""|| list[i] === undefined || list[i] === null){
-                        alert("항목을 전부 다 입력해주세요~!");
+                        alert("Please fill in all required fields :)");
                         return;
 
                     }
@@ -216,7 +216,7 @@ $(document).ready(function(){
 
                  for(var i=0 ; i < list.length ; i++){
                     if (list[i] === ""|| list[i] === undefined || list[i] === null){
-                        alert("항목을 전부 다 입력해주세요~!");
+                        alert("Please fill in all required fields");
                         return;
 
                     }
@@ -411,7 +411,7 @@ $(document).ready(function(){
 
                  for(var i=0 ; i < list.length ; i++){
                     if (list[i] === ""|| list[i] === undefined || list[i] === null){
-                        alert("항목을 전부 다 입력해주세요~!");
+                        alert("Please fill in all required fields");
                         return;
                     }else{
                         p=1;
@@ -766,7 +766,7 @@ $(document).ready(function() {
         <div class="date">
             <h4 data-pk="{{feed.pk}}">{{ feed.created_at }}
                 <img src="/static/ic_edit.png" height="16px" class="modify_feed">
-                <img src="/static/ic_delete.png" class="delete_feed" height="16px" style="margin-top:-0.2%; margin-left:-0.4%"></h4>
+                <img src="/static/ic_delete.png" class="delete_feed" height="16px" style="margin-top:-1%; margin-left:-1.5%"></h4>
         </div>
 
 
@@ -806,9 +806,9 @@ $(document).ready(function() {
                 <b><span class="name" id="author_name" style="color:#F7BE81;">{{ comment.author }}</span></b>
                 <span id="comment_contents">{{ comment.text }}</span>
             </div>
-            <div class="comment__date comment{{comment.pk}}" style="color:#F5DA81; margin-left:4.8%; margin-top:0.2%;">{{ comment.created_at }}
+            <div class="comment__date comment{{comment.pk}}" style="color:#F5DA81; margin-left:5%; margin-top:0.2%;">{{ comment.created_at }}
                 <img src="/static/ic_edit.png" height="16px" class="modify_comment" data-pk="{{ comment.pk }}">
-                <img src="/static/ic_delete.png" height="16px" style="margin-top:-0.2%; margin-left:-0.3%;" class="delete_comment" data-pk="{{ comment.pk }}">
+                <img src="/static/ic_delete.png" height="16px" style="margin-top:-1%; margin-left:-1%;" class="delete_comment" data-pk="{{ comment.pk }}">
 
             </div>
             {% endfor %}
@@ -885,7 +885,7 @@ $(document).ready(function() {
         top: 30%;
         right: 0;
         bottom: 0;
-        left: 10px;
+        <!--left: 10px;-->
         height:125px;
         width:335px;
         margin:0 auto;" >
@@ -893,7 +893,7 @@ $(document).ready(function() {
         <form id="form_delete_feed" method="POST" action="" style="display:inline-block; color:#F5DA81; ">
             {% csrf_token %}
             <h4>Password</h4>
-            <input class="input_field" type="password" placeholder="글 비번" name="password" style="margin-bottom:4%;"><br>
+            <input class="input_field" type="password" placeholder="Password" name="password" style="margin-bottom:10%; width:96%;"><br>
 
             <!--<button class="write_button">-->
             <!--<a href="#">취소</a>-->
@@ -901,7 +901,7 @@ $(document).ready(function() {
             <!--</button>-->
         </form>
 
-        <button class="write_button modal_delete" style="display:inline-block;">Delete</button>
+        <button class="write_button modal_delete" style="display:inline-block; margin-left:-2%;">Delete</button>
         <button class="write_button modal_cancel" style="display:inline-block;">Cancel</button>
         <p id="wrong_pwd" style="color:red;font-size:0.7em;display:none;"><b>Password do not match.</br> Please verify correct password.</b></p>
     </div>
@@ -922,17 +922,17 @@ $(document).ready(function() {
         <form id="form_modify_feed" method="POST" action="" style="display:inline-block; color:#F5DA81;width:100%;">
             {% csrf_token %}
             <h4>UPDATE</h4>
-            <input class="input_field_mod" type="text" placeholder="글쓴이의 이름은?" id="author_mod" name="author" style="color:#F7BE81; display:block;margin-bottom:5px;">
-            <input class="input_field_mod" type="password" placeholder="글 비밀번호" id="password" name="password" style="display:block;margin-bottom:5px;">
-            <input class="input_field_mod" type="text" placeholder="제목을 입력해주세요." id="title" name="title" style="display:block;margin-bottom:5px;color:#F79F81; font-weight:600;">
-            <textarea class="textarea_field_mod" placeholder="내용을 입력해주세요." id="content" name="content" style="display:block;margin-bottom:5px;color:#F79F81;"></textarea>
+            <input class="input_field_mod" type="text" placeholder="NAME" id="author_mod" name="author" style="color:#F7BE81; display:block;margin-bottom:5px;">
+            <input class="input_field_mod" type="password" placeholder="PASSWORD" id="password" name="password" style="display:block;margin-bottom:5px;">
+            <input class="input_field_mod" type="text" placeholder="TITLE" id="title" name="title" style="display:block;margin-bottom:5px;color:#F79F81; font-weight:600;">
+            <textarea class="textarea_field_mod" placeholder="CONTENT" id="content" name="content" style="display:block;margin-bottom:5px;color:#F79F81;"></textarea>
 
             <!--<button class="write_button">-->
             <!--<a href="#">취소</a>-->
 
             <!--</button>-->
         </form>
-        <div style="margin-left:85px;;">
+        <div style="margin-left:70px; margin-top:3%;">
             <button class="write_button modal_modify" style="display:inline-block;">Update</button>
             <button class="write_button modify_cancel" style="display:inline-block;">Cancel</button>
         </div>
