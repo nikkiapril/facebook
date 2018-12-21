@@ -147,7 +147,7 @@ $(document).ready(function(){
                         +"<b><span class='name' id='author_name' style='color:#F7BE81;'>"+result.name+"</span></b> "
                         +"<span id='comment_contents'>"+result.content+"</span>"
                         +"</div>"
-                        + "<div class='comment__date comment"+result.article+"' style='color:#F5DA81; margin-left:4.8%; margin-top:0.2%;'>"+check
+                        + "<div class='comment__date comment"+result.article+"' style='color:#F5DA81; margin-left:5%; margin-top:0.2%;'>"+check
                         +" <img src='/static/ic_edit.png' height='16px' class='modify_comment' data-pk='"+result.article+"'>"
                         +" <img src='/static/ic_delete.png' height='16px' style='margin-top:-0.2%; margin-left:-0.3%;' class='delete_comment' data-pk='"+result.article+"'>"
                         +"</div>";
@@ -766,7 +766,7 @@ $(document).ready(function() {
         <div class="date">
             <h4 data-pk="{{feed.pk}}">{{ feed.created_at }}
                 <img src="/static/ic_edit.png" height="16px" class="modify_feed">
-                <img src="/static/ic_delete.png" class="delete_feed" height="16px" style="margin-top:-1%; margin-left:-1.5%"></h4>
+                <img src="/static/ic_delete.png" class="delete_feed" height="16px" style="margin-top:-0.2%; margin-left:-0.4%"></h4>
         </div>
 
 
@@ -808,7 +808,7 @@ $(document).ready(function() {
             </div>
             <div class="comment__date comment{{comment.pk}}" style="color:#F5DA81; margin-left:5%; margin-top:0.2%;">{{ comment.created_at }}
                 <img src="/static/ic_edit.png" height="16px" class="modify_comment" data-pk="{{ comment.pk }}">
-                <img src="/static/ic_delete.png" height="16px" style="margin-top:-1%; margin-left:-1%;" class="delete_comment" data-pk="{{ comment.pk }}">
+                <img src="/static/ic_delete.png" height="16px" style="margin-top:-0.2%; margin-left:-0.3%;" class="delete_comment" data-pk="{{ comment.pk }}">
 
             </div>
             {% endfor %}
