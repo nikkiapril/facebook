@@ -9,7 +9,7 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import csrf_exempt
 import json
-
+from django.core.mail import send_mail
 
 # Create your views here.
 def play(request):
@@ -366,3 +366,7 @@ def comment_write(request):
             )
         return HttpResponse(json.dumps({'articles': articles}), content_type="application/json")
         #return render(request, 'newsfeed.html', {'articles': articles})
+
+    def index(request):
+        send_mail('New Message!','Please check this out!','borah8767@gmail.com',['borah8767@gmail.com'], fail_silently=False)
+        return render(request,'newsfeed.html')
