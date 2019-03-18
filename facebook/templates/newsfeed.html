@@ -50,7 +50,7 @@ $(document).ready(function(){
                             click.attr('data-status', '1');
                         }else{
                             click.find('img').attr('src', '/static/like_icon.gif');
-                            click.css('color', '#F5DA81');
+                            click.css('color', '#F86171');
                             click.attr('data-status', '0');
                         }
                     }
@@ -143,12 +143,12 @@ $(document).ready(function(){
                         var check = year+'년 '+month+'월 '+date+'일 '+hour+':'+minute+' '+ap;
 
                         // 작성한 코멘트를 붙여주기
-                        var new_comment = "<div class='comment comment"+result.article+"' id='comment_content' style='color:#F79F81; margin-top:-0.3%;'>"
-                        +"<b><span class='name' id='author_name' style='color:#F7BE81;'>"+result.name+"</span></b> "
+                        var new_comment = "<div class='comment comment"+result.article+"' id='comment_content' style='color:#F86171; margin-top:-0.3%;'>"
+                        +"<b><span class='name' id='author_name' style='color:#F86171;'>"+result.name+"</span></b> "
                         +"<span id='comment_contents'>"+result.content+"</span>"
                         +"</div>"
-                        + "<div class='comment__date comment"+result.article+"' style='color:#F5DA81; margin-left:5%; margin-top:0.2%;'>"+check
-                        +" <img src='/static/ic_edit.png' height='16px' class='modify_comment' data-pk='"+result.article+"'>"
+                        + "<div class='comment__date comment"+result.article+"' style='color:#F86171; margin-left:5%; margin-top:0.2%;'>"+check
+                        +" <img src='/static/ic_edit1.png' height='16px' class='modify_comment' data-pk='"+result.article+"'>"
                         +" <img src='/static/ic_delete.png' height='16px' style='margin-top:-0.2%; margin-left:-0.3%;' class='delete_comment' data-pk='"+result.article+"'>"
                         +"</div>";
 
@@ -473,7 +473,7 @@ $(document).ready(function() {
 
 <style>
         * { box-sizing: border-box; margin: 0; padding: 0; position: relative;}
-        body {background-image: url('/static/bgc.gif');
+        body {background-image: url('/static/tulip1.jpg');
 
          -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -484,7 +484,7 @@ $(document).ready(function() {
         .header {
             background-color: transparent;
             <!--background-image: url('/static/1yip.gif');-->
-            color: #F79F81;
+            color: #F86171;
 
             height: 42px;
             <!--border:1px solid white;-->
@@ -506,9 +506,9 @@ $(document).ready(function() {
         }
         .searchbar {
             background-color: transparent;
-            color:#F5DA81;
+            color:#F86171;
             border-radius: 4px;
-            border: 1px solid #F5DA81;
+            border: 1px solid #F86171;
             padding: 10px;
         }
         .btn2 {
@@ -520,8 +520,8 @@ $(document).ready(function() {
             <!--background-color: #d7d8dc;-->
         }
         .footer {
-            border-top: 1px dotted #F5DA81;
-            background-color: #F5DA81;
+            border-top: 1px dotted #F86171;
+            background-color: #F86171;
             height: 5px;
             text-align: center;
             position:relative; bottom: 0; left: 0; right: 0;
@@ -550,45 +550,45 @@ $(document).ready(function() {
             <!--background-color: #ffffff;-->
             <!--background-image: url('/static/1yip.gif');-->
 
-            border-top: -5px solid #F5DA81;
+            border-top: -5px solid #F86171;
             border-bottom: 1px solid transparent;
             margin: 7px 0;
             padding: 12px;
             margin-bottom:-1%;
         }
         .date {
-            color: #F5DA81;
+            color: #F86171;
             margin-bottom: 10px;
         }
         .title {
-            color: #F79F81;
+            color: #F86171;
             font-weight: 600;
         }
         .content {
             margin-top: 5px;
-            color:#F79F81;
+            color:#F86171;
         }
         .accessory {
-            border-top: 1px solid #F5DA81;
+            border-top: 1px solid #F86171;
             padding-top:10px;
             margin-top:10px;
-            color: #F5DA81;
+            color: #F86171;
             font-size: 14px;
         }
         <!--코멘트-!>
          .comment_list {
         background-color: transparent;
-        border-bottom: 1px solid #F5DA81;
+        border-bottom: 1px solid #F86171;
         padding-top: 0.1px;
     }
 ​    #author_name{
         <!--color:red;-->
-        color:#F7BE81;
+        color:#F86171;
         font-weight:bold;
       }
     .comment {
         background-color: #fff;
-        color:#F79F81;
+        color:#F86171;
         border-radius: 30px;
         margin: 15px;
         padding: 15px;
@@ -602,7 +602,7 @@ $(document).ready(function() {
     }
 ​
     .comment__date {
-        color:#F5DA81;
+        color:#F86171;
         margin: 0 15px;
         padding: 8px 15px;
         padding-bottom: 0px;
@@ -613,15 +613,15 @@ $(document).ready(function() {
     .form-wrapper {
         margin-left:30%;
         padding: 15px;
-        border-bottom: 1px #F5DA81;
+        border-bottom: 1px #F86171;
     }
 ​
 
 ​
     #c_button {
        background-color: transparent;
-    border: 1px solid #F5DA81;
-    color: #F5DA81;
+    border: 1px solid #F86171;
+    color: #F86171;
     border-radius: 4px;
     padding: 2px 8px;
     font-size: 15px;
@@ -631,41 +631,41 @@ $(document).ready(function() {
     background-color:transparent;
     margin: 10px;
     border-radius: 4px;
-    border: 1px solid #F5DA81;
+    border: 1px solid #F86171;
     padding: 10px;
 }
 
 
     .form_box {
-    background-image: url('/static/bgc.gif');
+    background-image: url('/static/tulip1.jpg');
     margin: 10px;
     border-radius: 4px;
-    border: 1px solid #F5DA81;
+    border: 1px solid #F86171;
     padding: 10px;
 }
 .input_field {
-    border: 1px solid #F5DA81;
+    border: 1px solid #F86171;
     border-radius: 4px;
     padding: 4px;
     margin: 3px 0;
     font-size: 14px;
     width: 100%;
-    color:#FE9A2E;
+    color:#F86171;
 }
 .textarea_field {
-    border: 1px dotted #F5DA81;
+    border: 1px dotted #F86171;
     border-radius: 4px;
     padding: 4px;
     margin: 3px 0;
     font-size: 14px;
     width: 100%;
     height: 160px;
-    color: #F5DA81;
+    color: #F86171;
 }
 .write_button {
     background-color: transparent;
-    border: 1px solid #F5DA81;
-    color: #F5DA81;
+    border: 1px solid #F86171;
+    color: #F86171;
     border-radius: 4px;
     padding: 2px 8px;
     font-size: 14px;
@@ -673,7 +673,7 @@ $(document).ready(function() {
 
 .form-wrapper input,
 .form-wrapper textarea {
-    border: 1px dotted #F5DA81;
+    border: 1px dotted #F86171;
     width: 60%;
     padding: 5px;
     font-size: 14px;
@@ -686,8 +686,8 @@ $(document).ready(function() {
 ​
 .comment_submit {
    background-color: transparent;
-    border: 1px solid #F5DA81;
-    color: #F5DA81;
+    border: 1px solid #F86171;
+    color: #F86171;
     border-radius: 4px;
     padding: 2px 8px;
     font-size: 15px;
@@ -697,7 +697,7 @@ $(document).ready(function() {
 <!--수정용 모달-->
 
 .form_box_mod{
-    background-image:('/static/bgc.gif');
+    background-image:('/static/tulip1.jpg');
     margin: 10px;
     border-radius: 4px;
     border: 1px solid #ddd;
@@ -721,9 +721,9 @@ $(document).ready(function() {
     height: 160px;
 }
 .write_button_mod {
-    background-color: #475d9f;
-    border: 1px solid #323f6b;
-    color: #ffffff;
+    background-color: #F86171;
+    border: 1px solid #F86171;
+    color: #F86171;
     border-radius: 4px;
     padding: 2px 8px;
     font-size: 18px;
@@ -736,7 +736,8 @@ $(document).ready(function() {
 <body>
 <div class="container">
     <!--여그까지-->
-    <div style="text-align: center; "><a href="/main/"><img src="/static/message_board.gif" style="width:100%;margin-left:10px;" ></a></div>
+    <!--<div style="text-align: center; "><a href="/main/"><img src="/static/message_board.gif" style="width:100%;margin-left:10px;" ></a></div>-->
+    <div style="text-align: center; color:#F86171; width:100%; margin-top:5%;"><b><h2><font face="bodoni">WELCOME TO MY MESSAGE BOARD</font></h2></b></div>
     <!--<div class="header" style="height:65px;margin-bottom:15px;">-->
 </div>
 <div class="container" style="padding-left:25px;padding-right:25px;margin-top:20px;">
@@ -744,14 +745,14 @@ $(document).ready(function() {
 
 
         <a href="/">
-            <img src="/static/6.gif" width="48.4px" >
+            <img src="/static/home.png" width="48.4px" >
         </a>
     </div>
     <!--서치!!-->
 
     <div class="search">
 
-        <input type="text" style="width:100%;border-radius:4px; color:#F5DA81;" class="searchbar"  placeholder="Search by name :)" id="keyword" onkeyup="">
+        <input type="text" style="width:100%;border-radius:4px; margin-left: 1%; color:#F86171;" class="searchbar"  placeholder="Search by name :)" id="keyword" onkeyup="">
 
     </div>
 
@@ -762,16 +763,16 @@ $(document).ready(function() {
     {% if  articles %}
     {% for feed in articles %}
     <div class="feed feed{{feed.pk}}">
-        <h3 class="name" style="color:#F7BE81;">{{ feed.author }}</h3>
+        <h3 class="name" style="color:#F86171;">{{ feed.author }}</h3>
         <div class="date">
             <h4 data-pk="{{feed.pk}}">{{ feed.created_at }}
-                <img src="/static/ic_edit.png" height="16px" class="modify_feed">
+                <img src="/static/ic_edit1.png" height="16px" class="modify_feed">
                 <img src="/static/ic_delete.png" class="delete_feed" height="16px" style="margin-top:-0.2%; margin-left:-0.4%"></h4>
         </div>
 
 
         <a class="title">{{ feed.title }}</a>
-        <p class="content" style="color:#F79F81;">{{ feed.text }}</p>
+        <p class="content" style="color:#F86171;">{{ feed.text }}</p>
         <!--<a class="more" href="/feed/{{feed.pk}}/">더보기</a>-->
         <div style="height:15px;"></div>
         <div>
@@ -780,12 +781,12 @@ $(document).ready(function() {
             {% else %}
             <img src="/static/justHeart.gif" width="20px" class="img" id="img{{feed.pk}}">
             {% endif %}
-            <div style="display:inline-block; color:white;">
+            <div style="display:inline-block; color:#F86171;">
                 {{feed.total_like}}
             </div>
         </div>
         <div class="accessory">
-            <div style="display:inline-block; color:#F5DA81;" class="like_btn" data-article="{{feed.pk}}" data-status="0">
+            <div style="display:inline-block; color:#F86171;" class="like_btn" data-article="{{feed.pk}}" data-status="0">
                 <img src="/static/like_icon.gif" width="16px" class="like_gray" > Like
             </div>
 
@@ -802,12 +803,12 @@ $(document).ready(function() {
 
         <div class="comment_list">
             {% for comment in feed.comments.all %}
-            <div class="comment comment{{comment.pk}}" id="comment_content" style="color:#F79F81; margin-top:-0.3%;">
-                <b><span class="name" id="author_name" style="color:#F7BE81;">{{ comment.author }}</span></b>
+            <div class="comment comment{{comment.pk}}" id="comment_content" style="color:#F86171; margin-top:-0.3%;">
+                <b><span class="name" id="author_name" style="color:#F86171;">{{ comment.author }}</span></b>
                 <span id="comment_contents">{{ comment.text }}</span>
             </div>
-            <div class="comment__date comment{{comment.pk}}" style="color:#F5DA81; margin-left:5%; margin-top:0.2%;">{{ comment.created_at }}
-                <img src="/static/ic_edit.png" height="16px" class="modify_comment" data-pk="{{ comment.pk }}">
+            <div class="comment__date comment{{comment.pk}}" style="color:#F86171; margin-left:5%; margin-top:0.2%;">{{ comment.created_at }}
+                <img src="/static/ic_edit1.png" height="16px" class="modify_comment" data-pk="{{ comment.pk }}">
                 <img src="/static/ic_delete.png" height="16px" style="margin-top:-0.2%; margin-left:-0.3%;" class="delete_comment" data-pk="{{ comment.pk }}">
 
             </div>
@@ -816,7 +817,7 @@ $(document).ready(function() {
 
         <div class="form-wrapper" style="padding-top:3%; margin-left:3.5%;">
             <!--<hr style="color:white;">-->
-            <b><span style="margin-left:1.5%; color:#F5DA81;">
+            <b><span style="margin-left:1.5%; color:#F86171;">
 
                 PLEASE LEAVE A COMMENT!
             </span></b><br/>
@@ -830,7 +831,7 @@ $(document).ready(function() {
 
 
 
-            <button id="c_button" type="button" class="comment_submit" data-article="{{feed.pk}}" style="background-color:transparent;border: 1px solid #F5DA81;color: #F5DA81;
+            <button id="c_button" type="button" class="comment_submit" data-article="{{feed.pk}}" style="background-color:transparent;border: 1px solid #F86171;color: #F86171;
     border-radius: 4px;
     padding: 2px 8px;
     font-size: 15px;">SUBMIT</button>
@@ -844,7 +845,7 @@ $(document).ready(function() {
 
     {% endfor %}
     {% else %}
-    <h1 style="color:#F5DA81; text-align:center;"> Sorry</br> There are no posts :(</h1><br/>
+    <h1 style="color:#F86171; text-align:center;"> Sorry</br> There are no posts :(</h1><br/>
     <div style="text-align:center; margin-top:-3%;"><h5><a href="/main">Click back to the message board</a></h5></div>
     {% endif %}
 
@@ -890,7 +891,7 @@ $(document).ready(function() {
         width:335px;
         margin:0 auto;" >
 
-        <form id="form_delete_feed" method="POST" action="" style="display:inline-block; color:#F5DA81; ">
+        <form id="form_delete_feed" method="POST" action="" style="display:inline-block; color:#F86171; ">
             {% csrf_token %}
             <h4>Password</h4>
             <input class="input_field" type="password" placeholder="Password" name="password" style="margin-bottom:10%; width:96%;"><br>
@@ -919,13 +920,13 @@ $(document).ready(function() {
     background-color: rgba(0,0,0,0.6); /* Black w/ opacity */">
     <div class="form_box modal_content" style="top:20%;margin:0 auto;width:300px;height:398px;padding-left:15px;  padding-right:15px;padding-bottom:10px;">
 
-        <form id="form_modify_feed" method="POST" action="" style="display:inline-block; color:#F5DA81;width:100%;">
+        <form id="form_modify_feed" method="POST" action="" style="display:inline-block; color:#F86171;width:100%;">
             {% csrf_token %}
             <h4>UPDATE</h4>
-            <input class="input_field_mod" type="text" placeholder="NAME" id="author_mod" name="author" style="color:#F7BE81; display:block;margin-bottom:5px;">
+            <input class="input_field_mod" type="text" placeholder="NAME" id="author_mod" name="author" style="color:#F86171; display:block;margin-bottom:5px;">
             <input class="input_field_mod" type="password" placeholder="PASSWORD" id="password" name="password" style="display:block;margin-bottom:5px;">
-            <input class="input_field_mod" type="text" placeholder="TITLE" id="title" name="title" style="display:block;margin-bottom:5px;color:#F79F81; font-weight:600;">
-            <textarea class="textarea_field_mod" placeholder="CONTENT" id="content" name="content" style="display:block;margin-bottom:5px;color:#F79F81;"></textarea>
+            <input class="input_field_mod" type="text" placeholder="TITLE" id="title" name="title" style="display:block;margin-bottom:5px;color:#F86171; font-weight:600;">
+            <textarea class="textarea_field_mod" placeholder="CONTENT" id="content" name="content" style="display:block;margin-bottom:5px;color:#F86171;"></textarea>
 
             <!--<button class="write_button">-->
             <!--<a href="#">취소</a>-->
@@ -951,7 +952,7 @@ $(document).ready(function() {
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.6); /* Black w/ opacity */">
     <div class="form_box modal_content" style="top:20%;margin:0 auto;width:330px;height:380px;padding-left:15px;padding-right:15px;padding-bottom:10px;">
-        <form id="form_write_feed" method="POST" action="" style="display:inline-block; margin-top:0%; color:#F5DA81; width:100%;">
+        <form id="form_write_feed" method="POST" action="" style="display:inline-block; margin-top:0%; color:#F86171; width:100%;">
 
             {% csrf_token %}
 
@@ -977,10 +978,10 @@ $(document).ready(function() {
 
 <!--footer-->
 <div class="footer" style="position:fixed;bottom:30px;background: transparent; z-index:5">
-    <div class="tab1" style="background-color:#4A2818; height:35px;opacity:0.8;">
-        <img src="/static/ic_edit.png" width="20px" style="margin-top: 10px;" class="modal_write"> </div>
-    <div class="tab2" style="background-color:#4A2818; height:35px;opacity:0.8;">
-        <a href="/#bora"><img src="/static/bora_lee.gif" style="margin-top:-1px; " height="34px" width=50px"></a>
+    <div class="tab1" style="background-color:#F86171; height:35px;opacity:0.8;">
+        <img src="/static/msg.gif" width="70px" style="margin-top: 5px;" class="modal_write"> </div>
+    <div class="tab2" style="background-color:#F86171; height:40px;opacity:0.8;">
+        <a href="/#bora"><img src="/static/bora_lee1.gif" style="margin-top:2px; " height="25px" width=45px"></a>
     </div>
 
 </div>
