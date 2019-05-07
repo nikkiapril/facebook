@@ -72,4 +72,5 @@ urlpatterns = [
     path('pages/remove/',remove),
     path('comment_write',comment_write),
 
+
 ]
